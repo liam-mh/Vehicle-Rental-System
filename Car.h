@@ -14,5 +14,7 @@ public:
 
     //const void displayCar();
     virtual double costPerDay() const override;
+
+    friend ofstream& operator<<(ofstream& of, const Car* v);
 };
 

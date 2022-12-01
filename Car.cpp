@@ -5,6 +5,7 @@
 #include <ctime>
 #include <string>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 //Car::Car(int doors, int seats, Vehicle* vehicle)
@@ -38,3 +39,15 @@ double Car::costPerDay() const
     return calc/100;
 }
 
+ofstream& operator<<(ofstream& of, const Car* v)
+{
+    of 
+        << v->doors << ","
+        << v->seats << ","
+        << v->getVehicleReg() << ","
+        << "Car" << ","
+        << v->getVehicleMake() << ","
+        << v->getVehicleModel() << ","
+        << v->getVehicleAge() << "\n";
+    return of;
+}

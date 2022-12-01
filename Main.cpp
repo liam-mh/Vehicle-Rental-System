@@ -1,4 +1,3 @@
-#include "Main.h"
 #include "Container.h"
 #include "Vehicle.h"
 #include "Disk.h"
@@ -32,10 +31,17 @@ int main() {
     for (int i = 0; i < sizeof(vehicles); i++)
         container->addItem(vehicles[i]);
 
-    /*ofstream output;
+    ofstream output;
     output.open("Vehicle.csv");
-    output << vehicles[0];
-    output.close();*/
+
+    for (int i = 0; i < sizeof(vehicles); i++)
+    {
+        Car* test = dynamic_cast<Car*>(vehicles[i]);
+        if (test != nullptr)
+            output << test;
+    }
+       
+    output.close();
    
 
     /*

@@ -15,12 +15,17 @@ public:
     virtual ~Vehicle();
 
     virtual const void displayVehicle();
-    const string getVehicleReg() const;
-    const int getVehicleAge() const;
     virtual double costPerDay() const = 0;
 
-    //friend ofstream& operator<<(ofstream& of, const Vehicle& v);
+    const string getVehicleReg() const;
+    const string getVehicleMake() const;
+    const string getVehicleModel() const;
+    const int getVehicleAge() const;
+
+    // friend ofstream& operator<<(ofstream& of, const Vehicle& v);
 };
 
 inline const string Vehicle::getVehicleReg() const { return registration; }
+inline const string Vehicle::getVehicleMake() const { return make; }
+inline const string Vehicle::getVehicleModel() const { return model; }
 inline const int Vehicle::getVehicleAge() const { return age; }
