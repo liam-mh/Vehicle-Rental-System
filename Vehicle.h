@@ -14,12 +14,12 @@ public:
     Vehicle(string registration, string type, string make, string model, int age);
     virtual ~Vehicle();
 
+    virtual const void displayVehicle();
     const string getVehicleReg() const;
     const int getVehicleAge() const;
     virtual double costPerDay() const = 0;
 
-    friend ostream& operator<<(ostream& os, const Vehicle& v);
-    virtual ostream& print()
+    //friend ofstream& operator<<(ofstream& of, const Vehicle& v);
 };
 
 inline const string Vehicle::getVehicleReg() const { return registration; }

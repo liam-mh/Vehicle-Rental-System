@@ -20,7 +20,7 @@ int main() {
 
     vehicles[0] = new Car(3, 5, "GY46 HHH", "Honda", "Civic", 2010);
     vehicles[1] = new Car(5, 5, "JU77 HSG", "Ford", "Focus", 2002);
-    vehicles[2] = new Car(5, 5, "HD88 KSD", "Audi", "TT", 2005);
+    vehicles[2] = new Car(5, 5, "AA22 AAA", "Audi", "TT", 2005);
     vehicles[3] = new Car(5, 5, "LL47 CSA", "Audi", "Q5", 2020);
     vehicles[4] = new Bike(75, 2, "FS77 DFD", "Honda", "MotorCross", 2011);
     vehicles[5] = new Bike(50, 2, "CI92 FSS", "Toyota", "Moped", 2008);
@@ -32,21 +32,12 @@ int main() {
     for (int i = 0; i < sizeof(vehicles); i++)
         container->addItem(vehicles[i]);
 
-    
+    /*ofstream output;
+    output.open("Vehicle.csv");
+    output << vehicles[0];
+    output.close();*/
+   
 
-    
-
-   /* ofstream output("Vehicle.csv");
-    if (output.is_open())
-    {
-        copy(container.begin(),container.end(), ostream_iterator<Vehicle*>(cout, "\n"));
-    }
-    else
-    {
-        cout << "Cannot optm file for writing";
-    }*/
-
-    
     /*
     * end
     * -----------------------------------------------------------------------------------
@@ -58,8 +49,9 @@ int main() {
     do
     {
         cout << "" << endl;
+        cout << "-----------------------------------------------------" << endl;
         cout << "Vehicle Rental System - Liam Hammond" << endl;
-        cout << "------------------------------------" << endl;
+        cout << "-----------------------------------------------------" << endl;
         cout << "" << endl;
         
         container->displayMainData();
@@ -76,12 +68,12 @@ int main() {
         cout << "Please enter option :" << endl;
 
         cin >> option;
-
+        cout << "" << endl;
         
         switch (option)
         {
         case 1: container->addItemPage();
-        //case 2: MiniApps::removeVehicle(); break;
+        case 2: container->removeItemPage();
         //case 3: MiniApps::searchCar(); break;
         //case 4: MiniApps::searchBike(); break;
         //case 5: MiniApps::sortReg(); break;

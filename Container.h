@@ -13,12 +13,19 @@ public:
     ~Container();
 
     void addItem(Vehicle* vehicle);
-    void displayReg();
+    void removeItem(string reg);
+    void removeItem(int index);
+
+    //void displayReg();
     void displayMainData();
     void addItemPage();
+    void removeItemPage();
+
     void createCar();
     void createBike();
+
     bool checkRegFormat(string reg);
+    bool checkRegExists(string reg);
 
     void searchForBike();
     void searchForCar();

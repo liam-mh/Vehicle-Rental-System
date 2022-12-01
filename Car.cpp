@@ -18,6 +18,13 @@ Car::Car(int doors, int seats, string registration, string make, string model, i
 Car::~Car()
 {}
 
+//const void Car::displayCar()
+//{   
+//    displayVehicle();
+//    cout << "Doors: " << doors << endl;
+//    cout << "Seats: " << seats << endl;
+//}
+
 double Car::costPerDay() const
 {
     time_t t = time(0);
