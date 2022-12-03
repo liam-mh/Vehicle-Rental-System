@@ -47,28 +47,6 @@ void Disk::readVehicleFromDisk()
     }
 };
 
-
-void Disk::writeVehicleToDisk()
-{
-    ofstream output("Vehicle.csv");
-    if (output.is_open())
-    {
-       
-
-        /*for (int i = 0; i < dataset.size(); ++i)
-        {
-            output << dataset[i];
-        }
-        output.close();*/
-    }
-    else
-    {
-        cout << "Cannot open file for writing";
-    }
-    
-}
-
-
 /*
 void Disk::writeVehicleToDisk(vector<Vehicle> dataset)
 {

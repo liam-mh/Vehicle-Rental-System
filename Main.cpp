@@ -1,10 +1,10 @@
+#include "Main.h"
 #include "Container.h"
 #include "Vehicle.h"
 #include "Disk.h"
 #include "Car.h"
 #include "Bike.h"
 
-#include <fstream>
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -15,11 +15,12 @@ int main() {
     * Whilst implementing reading from disk
     * -----------------------------------------------------------------------------------
     */
+
     Vehicle** vehicles = new Vehicle* [10];
 
     vehicles[0] = new Car(3, 5, "GY46 HHH", "Honda", "Civic", 2010);
     vehicles[1] = new Car(5, 5, "JU77 HSG", "Ford", "Focus", 2002);
-    vehicles[2] = new Car(5, 5, "AA22 AAA", "Audi", "TT", 2005);
+    vehicles[2] = new Car(5, 5, "HD88 KSD", "Audi", "TT", 2005);
     vehicles[3] = new Car(5, 5, "LL47 CSA", "Audi", "Q5", 2020);
     vehicles[4] = new Bike(75, 2, "FS77 DFD", "Honda", "MotorCross", 2011);
     vehicles[5] = new Bike(50, 2, "CI92 FSS", "Toyota", "Moped", 2008);
@@ -28,22 +29,10 @@ int main() {
 
     // Wrap vehicle pointers into Container vector
     Container* container = new Container();
+
     for (int i = 0; i < sizeof(vehicles); i++)
         container->addItem(vehicles[i]);
-
-    ofstream output;
-    output.open("Vehicle.csv");
-
-    for (int i = 0; i < sizeof(vehicles); i++)
-    {
-        Car* test = dynamic_cast<Car*>(vehicles[i]);
-        if (test != nullptr)
-            output << test;
-    }
-       
-    output.close();
-   
-
+    
     /*
     * end
     * -----------------------------------------------------------------------------------
@@ -55,13 +44,12 @@ int main() {
     do
     {
         cout << "" << endl;
-        cout << "-----------------------------------------------------" << endl;
         cout << "Vehicle Rental System - Liam Hammond" << endl;
-        cout << "-----------------------------------------------------" << endl;
+        cout << "------------------------------------" << endl;
         cout << "" << endl;
-        
+        cout << left << setw(24) << "Registration Number" << left << setw(17) << "Cost Per Day" << left << setw(17) << "Vehicle Type" << endl;
+        cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
         container->displayMainData();
-        cout << "" << endl;
       
         cout << "1) Add Vehicle" << endl;
         cout << "2) Remove Vehicle" << endl;
@@ -74,17 +62,20 @@ int main() {
         cout << "Please enter option :" << endl;
 
         cin >> option;
-        cout << "" << endl;
+
         
         switch (option)
         {
-        case 1: container->addItemPage();
-        case 2: container->removeItemPage();
-        //case 3: MiniApps::searchCar(); break;
-        //case 4: MiniApps::searchBike(); break;
-        //case 5: MiniApps::sortReg(); break;
-        //case 6: MiniApps::sortCPD(); break;
+        case 1: container->addItemPage(); break;
+                
+        //case 2: removeVehicle(); break;
+        //case 3: searchCar(); break;
+        //case 4: searchBike(); break;
+        //case 5: sortReg(); break;
+        //case 6: sortCPD(); break;
         }
+
+        cout << "**END OF MAIN PAGE LOOP" << endl;
         
 
     } while (option != 9);

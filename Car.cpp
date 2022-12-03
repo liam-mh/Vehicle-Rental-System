@@ -5,12 +5,8 @@
 #include <ctime>
 #include <string>
 #include <iostream>
-#include <fstream>
+#include <iomanip>
 using namespace std;
-
-//Car::Car(int doors, int seats, Vehicle* vehicle)
-//    : doors(doors), seats(seats)
-//{}
 
 Car::Car(int doors, int seats, string registration, string make, string model, int age)
     : doors(doors), seats(seats), Vehicle(registration, "Car", make, model, age)
@@ -19,12 +15,6 @@ Car::Car(int doors, int seats, string registration, string make, string model, i
 Car::~Car()
 {}
 
-//const void Car::displayCar()
-//{   
-//    displayVehicle();
-//    cout << "Doors: " << doors << endl;
-//    cout << "Seats: " << seats << endl;
-//}
 
 double Car::costPerDay() const
 {
@@ -37,17 +27,4 @@ double Car::costPerDay() const
     if (calc < 1000)
         return 10.00;
     return calc/100;
-}
-
-ofstream& operator<<(ofstream& of, const Car* v)
-{
-    of 
-        << v->doors << ","
-        << v->seats << ","
-        << v->getVehicleReg() << ","
-        << "Car" << ","
-        << v->getVehicleMake() << ","
-        << v->getVehicleModel() << ","
-        << v->getVehicleAge() << "\n";
-    return of;
 }
