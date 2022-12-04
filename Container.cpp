@@ -1,31 +1,62 @@
+#define CLEAR_SCREEN system("cls")
+#define SPACE cout << "" << endl;
 #include "Container.h"
-#include "Car.h"
 #include "Bike.h"
-#include <string>
-#include <iostream>
+#include "Car.h"
+#include "Disk.h"
+#include "Vehicle.h"
+
 #include <iomanip>
+#include <iostream>
+#include <regex>
+#include <string>
+#include <utility>
+#include <windows.h> // causes std error
 using namespace std;
+
 
 Container::Container() {};
 Container::~Container() {};
 
 void Container::addItem(Vehicle* vehicle)
-{
-    vehicles.push_back(vehicle);
-}
+{ vehicles.push_back(vehicle); }
 
-void Container::displayReg()
+void Container::removeItem(string reg)
 {
-    cout << "Displaying Items" << endl;
-    for (int i = 0; i < vehicles.size(); i++) 
+    vector<Vehicle*>::iterator it;
+    int i = 0;
+    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
     {
-        cout << vehicles[i]->getVehicleReg() << " ";
+        if (vehicles[i]->getVehicleReg() == reg)
+            vehicles.erase(vehicles.begin()+i);
+    }
+}
+void Container::removeItem(int index)
+{ vehicles.erase(vehicles.begin() + index); }
+
+void Container::printData(string type, int i)
+{
+    if ((type == "Car") && (typeid(*vehicles[i]) == typeid(Car)))
+    {
+        cout << left << setw(17) << setprecision(2) << fixed << vehicles[i]->costPerDay();
+        cout << left << setw(17) << vehicles[i]->getVehicleMake();
+        cout << left << setw(17) << vehicles[i]->getVehicleModel() << endl;
+    }
+    else
+    {
+        cout << left << setw(17) << setprecision(2) << fixed << vehicles[i]->costPerDay();
+        cout << left << setw(17) << vehicles[i]->getVehicleMake();
+        cout << left << setw(17) << vehicles[i]->getVehicleModel() << endl;
     }
 }
 
 void Container::displayMainData()
 {
-    for (int i = 0; i < vehicles.size(); i++)
+    cout << left << setw(24) << "Registration Number" << left << setw(17) << "Cost Per Day" << left << setw(17) << "Vehicle Type" << endl;
+    cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
+    vector<Vehicle*>::iterator it;
+    int i = 0;
+    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
     {
         cout << left << setw(24) << vehicles[i]->getVehicleReg();
 
@@ -39,16 +70,69 @@ void Container::displayMainData()
             cout << left << setw(17) << setprecision(2) << fixed << vehicles[i]->costPerDay();
             cout << left << setw(17) << "Bike" << endl;
         }
-
     }
-    cout << "" << endl;
+    cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
+}
+
+void Container::displayFilteredData(string type, int filter, string filterValue)
+{
+    vector<Vehicle*>::iterator it;
+    int i = 0;
+    int filterCount = 0;
+
+    cout << left << setw(28) << "Registration Number" << left << setw(17) << "Cost Per Day" << left << setw(17) << "Make" << left << setw(17) << "Model" << endl;
+    cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
+
+    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
+    {
+        if (filterValue == vehicles[i]->getVehicleReg())
+        {
+            filterCount++;
+            cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
+            printData(type, i);
+        }
+    }
+    cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
+}
+
+void Container::displayFilteredData(string type, int filter, int filterValue)
+{
+    vector<Vehicle*>::iterator it;
+    int i = 0;
+    int filterCount = 0;
+
+    cout << left << setw(28) << "Registration Number" << left << setw(17) << "Cost Per Day" << left << setw(17) << "Make" << left << setw(17) << "Model" << endl;
+    cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
+
+    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
+    {
+        switch (filter)
+        {
+        case 1 :
+            if (filterValue == vehicles[i]->getVal1())
+            {
+                filterCount++;
+                cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
+                printData(type, i);
+                break;
+            }
+
+        case 2:
+            if (filterValue == vehicles[i]->getVal2())
+            {
+                filterCount++;
+                cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
+                printData(type, i);
+                break;
+            }
+        }
+        
+    }
+    cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
 }
 
 void Container::addItemPage()
-{
-    int engine, wheels, doors, seats, age = 0;
-    string registration, type, make, model;
-    
+{ 
     int option = NULL;
 
     while (option != 9)
@@ -57,125 +141,347 @@ void Container::addItemPage()
         cout << "-------------" << endl;
         cout << "Here we will create a new vehicle to add." << endl;
         cout << "Do you wish to continue?" << endl;
-        cout << "" << endl;
+        SPACE
         cout << "1) Yes" << endl;
         cout << "2) No" << endl;
         cin >> option;
-        cout << "" << endl;
+        SPACE
         if (option == 2)
             break;
 
         option = NULL;
         cout << "What kind of vehicle would you like to add? A car or bike?" << endl;
-        cout << "" << endl;
+        SPACE
         cout << "1) Car" << endl;
         cout << "2) Bike" << endl;
         cin >> option;
-        cout << "" << endl;
+        SPACE
         if (option == 1)
-        {
-            createCar();
-            cout << "What would you like to do now?" << endl;
-            cout << "" << endl;
-            cout << "1) Create another vehicle" << endl;
-            cout << "2) Return to main menu" << endl;
-            cin >> option;
-            cout << "" << endl;
-            if (option == 2)
-                break;
-        }
-            
+            create("Car");
         else if (option == 2)
-            createBike();
-
-        cout << "**END OF addItemPage LOOP" << endl;
-        
+            create("Bike");
+   
+        option = NULL;
+        cout << "What would you like to do now?" << endl;
+        SPACE
+        cout << "1) Create another vehicle" << endl;
+        cout << "2) Return to main menu" << endl;
+        cin >> option;
+        SPACE
+        if (option == 2)
+            break;
     } 
-
-    cout << "**END OF addItemPage()" << endl;
 }
 
-void Container::createCar()
+void Container::removeItemPage()
 {
-    int option = 0;
-    int doors, seats, age = 0;
-    string registration, make, model;
+    string registration;
+    int option = NULL;
+    bool correct = true;
 
+    while (option != 9)
+    {
+        cout << "Remove a vehicle" << endl;
+        cout << "----------------" << endl;
+        cout << "Here we will remove a vehicle from the database." << endl;
+        cout << "Do you wish to continue?" << endl;
+        SPACE
+        cout << "1) Yes" << endl;
+        cout << "2) No" << endl;
+        cin >> option;
+        SPACE
+        if (option == 2)
+            break;
+
+        cout << "Please enter the registration of the vehicle you wish to remove:" << endl;
+        cout << "Must be in the following format where A = a letter, and 1 = a number:" << endl;
+        cout << "AA11 AAA   example: DY62 HYT" << endl;
+        cin.ignore();
+        getline(cin, registration);
+        SPACE
+        Vehicle::checkRegFormat(registration) ? correct = true : correct = false;
+
+        while (correct == false)
+        {
+            getline(cin, registration);
+            SPACE
+            Vehicle::checkRegFormat(registration) ? correct = true : correct = false;
+        }
+      
+        vector<Vehicle*>::iterator it;
+        int index = 0;
+        for (it = vehicles.begin(); it != vehicles.end(); it++, index++)
+        {
+            if (vehicles[index]->getVehicleReg() == registration)
+            {
+                correct = true;
+                break;
+            }
+            else
+                correct = false; 
+        }
+        if (correct == false)
+        {
+            cout << "No vehicle in the database with this registration." << endl;
+            cout << "Returning to the home page..." << endl;
+            Sleep(3000);
+            break;
+        }
+             
+
+        option = NULL;
+        cout << "Is this the correct vehicle?:" << endl;
+        vehicles[index]->displayVehicle();
+        SPACE
+        cout << "1) Yes" << endl;
+        cout << "2) No" << endl;
+        cin >> option;
+        SPACE
+        if (option == 2)
+            break;
+
+        option = NULL;
+        cout << "Once deleted the vehicle cannot be retrieved" << endl;
+        cout << "Final confirmation to delete:" << endl;
+        SPACE
+        cout << "1) Yes" << endl;
+        cout << "2) No" << endl;
+        cin >> option;
+        SPACE
+        if (option == 1)
+        {
+            removeItem(index);
+            cout << "Vehicle successfully removed." << endl;
+        }
+        if (option == 2)
+            break;
+
+        option = NULL;
+        cout << "What would you like to do now?" << endl;
+        SPACE
+        cout << "1) Remove another vehicle" << endl;
+        cout << "2) Return to main menu" << endl;
+        cin >> option;
+        SPACE
+        if (option == 2)
+            break;
+    }
+}
+
+void Container::create(string type)
+{
+    int option = 0,
+        doors  = 0,
+        seats  = 0,
+        wheels = 0,
+        engine = 0,
+        age    = 0;
+    string registration, make, model;
+    bool correct = true;
+
+    registration = enterReg(true);
+
+    cout << "Please enter the make: ";
+    cin >> make;
+    SPACE
+
+    cout << "And model: ";
+    cin >> model;
+    SPACE
+    
+    cout << "The age: ";
+    cin >> age;
+    SPACE
+
+    if (type == "Car")
+    {
+        cout << "And the amount of doors, followed by the amount of seats." << endl;
+        cin >> doors >> seats;
+        SPACE
+
+        cout << "Please confirm these details are correct:" << endl;
+        cout << "Registration: " << registration << endl;
+        cout << "Make and Model: " << make << " " << model << endl;
+        cout << "Age: " << age << endl;
+        cout << "Doors: " << doors << endl;
+        cout << "Seats: " << seats << endl;
+    }
+    if (type == "Bike")
+    {
+        cout << "And the number of wheels, followed by the enigine size." << endl;
+        cin >> wheels >> engine;
+        SPACE
+
+        cout << "Please confirm these details are correct:" << endl;
+        cout << "Registration: " << registration << endl;
+        cout << "Make and Model: " << make << " " << model << endl;
+        cout << "Age: " << age << endl;
+        cout << "Wheels: " << wheels << endl;
+        cout << "Engine size: " << engine << "cc" << endl;
+    }
+
+    SPACE
+    cout << "1) Yes" << endl;
+    cout << "2) No" << endl;
+    cin >> option;
+    SPACE
+    if (option == 1)
+    {
+        if (type == "Car")
+        {
+            Vehicle* v = new Car(doors, seats, registration, make, model, age);
+            addItem(v);
+        }
+        if (type == "Bike")
+        {
+            Vehicle* v = new Bike(wheels, engine, registration, make, model, age);
+            addItem(v);
+        }
+        cout << make << " " << model << " has been added" << endl;
+    }
+    else if (option == 2)
+        cout << "Please retry and enter the correct details." << endl;
+}
+
+bool Container::checkRegExists(string reg, bool errorMessage)
+{
+    vector<Vehicle*>::iterator it;
+    int i = 0;
+    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
+    {
+        if (vehicles[i]->getVehicleReg() == reg)
+        {
+            if (errorMessage)
+                cout << "Vehicle registration is already in the database, please try again" << endl;
+            return true;
+        }
+    }
+    return false;
+}
+
+void Container::save()
+{
+    vector<Vehicle*>::iterator it;
+    int i = 0;
+    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
+    {
+        cout << vehicles[i]->getVehicleReg() << endl;
+        Disk::writeVehicleToDisk(vehicles[i]);
+    }
+}
+
+void Container::search(string type)
+{
+    int option = NULL;
+
+    while (option != 9)
+    {
+        cout << "Search for a vehicle" << endl;
+        cout << "--------------------" << endl;
+        cout << "Here we will search for a " << type << endl;
+        cout << "Do you wish to continue?" << endl;
+        SPACE
+        cout << "1) Yes" << endl;
+        cout << "2) No" << endl;
+        cin >> option;
+        SPACE
+        if (option == 2)
+            break;
+
+        option = NULL;
+        cout << "What would you like to search by?" << endl;
+        SPACE;
+        cout << "1) Registration number" << endl;
+        if (type == "Car")
+        {
+            cout << "2) Number of seats" << endl;
+            cout << "3) Number of doors" << endl;
+        }
+        if (type == "Bike")
+        {
+            cout << "2) Number of wheels" << endl;
+            cout << "3) Engine size" << endl;
+        }
+        cout << "9) Return to main menu" << endl;
+        cin >> option;
+        SPACE
+
+        auto searchFilter = [&](string filter)
+        {
+            cout << "Search by " << type << " " << filter << endl;
+            cout << "Please enter amount of " << filter << ": ";
+            int input = 0;
+            cin >> input;
+
+            int filterNum = 0;
+            if (filter == "seats" || filter == "wheels")
+                filterNum = 1;
+            if (filter == "doors" || filter == "engine")
+                filterNum = 2;
+
+            cout << "List of " << type << "s matching search filter " << filter << endl;
+            SPACE
+            displayFilteredData(type, filterNum, input);
+            SPACE
+        };
+
+        if (option == 1) // search by reg
+        {
+            cout << "Search by registration number" << endl;
+            string registration;
+            registration = enterReg(true);
+            
+            cout << "List of " << type << "s matching search" << endl;
+            SPACE
+            displayFilteredData(type, 0, registration);
+            SPACE
+        }
+        if (type == "Car")
+        {
+            if (option == 2) 
+                searchFilter("seats");
+            if (option == 3) 
+                searchFilter("doors");
+        }
+        if (type == "Bike")
+        {
+            if (option == 2)
+                searchFilter("wheels");
+            if (option == 3)
+                searchFilter("engine");
+        }
+    }
+}
+
+string Container::enterReg(bool checkExists)
+{
+    bool correct;
+    string registration;
 
     cout << "Please enter the registration plate." << endl;
     cout << "Must be in the following format where A = a letter, and 1 = a number:" << endl;
     cout << "AA11 AAA   example: DY62 HYT" << endl;
     cin.ignore();
     getline(cin, registration);
+    SPACE
+    if (checkExists)
+        checkRegExists(registration, false) ? correct = false : correct = true;
+    Vehicle::checkRegFormat(registration) ? correct = true : correct = false;
 
-    //checkRegFormat(registration);
-    cout << "" << endl;
-
-    cout << "Please enter the make: ";
-    cin >> make;
-    cout << endl;
-
-    cout << "And model: ";
-    cin >> model;
-    cout << endl;
-
-    cout << "The age: ";
-    cin >> age;
-    cout << "" << endl;
-
-    cout << "And the amount of doors, followed by the amount of seats." << endl;
-    cin >> doors >> seats;
-    cout << "" << endl;
-
-    cout << "Please confirm these details are correct:" << endl;
-    cout << "Registration: " << registration << endl;
-    cout << "Make and Model: " << make << " " << model << endl;
-    cout << "Age: " << age << endl;
-    cout << "Doors: " << doors << endl;
-    cout << "Seats: " << seats << endl;
-    cout << "" << endl;
-    cout << "1) Yes" << endl;
-    cout << "2) No" << endl;
-    cin >> option;
-    cout << "" << endl;
-    if (option == 1)
+    while (correct == false)
     {
-        Vehicle* v = new Car(doors, seats, registration, make, model, age);
-        addItem(v);
-        cout << make << " " << model << " has been added" << endl;
+        bool e;
+        bool f;
+        getline(cin, registration);
+        SPACE
+        if (checkExists)
+            checkRegExists(registration, false) ? e = true : e = false;
+        else
+            e = false;
+    
+        Vehicle::checkRegFormat(registration) ? f = true : f = false;
+        if (e == false && f == true)
+            correct = true;
     }
-    else if (option == 2)
-        cout << "Please retry and enter the correct details." << endl;
-
-
-    cout << "**END OF createCar()" << endl;
+    return registration;
 }
-
-void Container::createBike()
-{
-    cout << "Create a bike" << endl;
-}
-
-bool Container::checkRegFormat(string reg)
-{
-    bool check = true;
-    if (8 == reg.length())
-    {
-        const char* arr = reg.c_str();
-        for (int i = 0; i < 8; i++)
-        {
-            if (i == 2 || i == 3)
-                isdigit(arr[i]) ? check : check=false;
-            else if (i == 4)
-                isblank(arr[i]) ? check : check=false;
-            else
-                (isalpha(arr[i])) ? check : check=false;
-        }
-    }
-    else
-    {
-        check = false;
-    }
-    return check;
-}
-

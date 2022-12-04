@@ -1,4 +1,6 @@
 #pragma once
+#include "Container.h"
+#include "Vehicle.h"
 #include <vector>
 
 class Disk
@@ -10,7 +12,7 @@ public:
     Disk();
     ~Disk();
 
-    void readVehicleFromDisk();
-    void writeVehicleToDisk();
+    Container* readVehiclesFromDisk();
+    static void writeVehicleToDisk(Vehicle* data);
+    //static void writeVehiclesToDisk(Container* data);
 };
-

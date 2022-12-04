@@ -1,12 +1,15 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Car.h"
-#include "Vehicle.h"
 #include "Container.h"
+#include "Vehicle.h"
+
 #include <ctime>
-#include <string>
+#include <fstream>
 #include <iostream>
-#include <iomanip>
+#include <string>
 using namespace std;
+
+
 
 Car::Car(int doors, int seats, string registration, string make, string model, int age)
     : doors(doors), seats(seats), Vehicle(registration, "Car", make, model, age)
@@ -14,7 +17,6 @@ Car::Car(int doors, int seats, string registration, string make, string model, i
 
 Car::~Car()
 {}
-
 
 double Car::costPerDay() const
 {
@@ -28,3 +30,17 @@ double Car::costPerDay() const
         return 10.00;
     return calc/100;
 }
+
+ofstream& operator<<(ofstream& of, const Car* v)
+{
+    of 
+        << v->doors << ","
+        << v->seats << ","
+        << v->getVehicleReg() << ","
+        << "Car" << ","
+        << v->getVehicleMake() << ","
+        << v->getVehicleModel() << ","
+        << v->getVehicleAge() << "\n";
+    return of;
+}
+
