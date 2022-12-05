@@ -7,6 +7,23 @@ using namespace std;
 
 class Container
 {
+    class sortByReg
+    {
+    public:
+        bool operator() (Vehicle* a, Vehicle* b)
+        {
+            return a->getVehicleReg() < b->getVehicleReg();
+        }
+    };
+    class sortByCost
+    {
+    public:
+        bool operator() (Vehicle* a, Vehicle* b)
+        {
+            return a->costPerDay() < b->costPerDay();
+        }
+    };
+
 private:
     vector<Vehicle*> vehicles;
 
@@ -18,7 +35,7 @@ public:
     void removeItem(string reg);
     void removeItem(int index);
 
-    void displayMainData();
+    void displayMainData(bool sortReg, bool sortCost);
     void displayFilteredData(string type, int filters, int filterValue);
     void displayFilteredData(string type, int filters, string filterValue);
     void printData(string type, int i);
@@ -35,5 +52,7 @@ public:
     void save();
 
     string enterReg(bool checkExists);
+
+    void sortPointers();
     
 };

@@ -30,6 +30,12 @@
     <ClInclude Include="Bike.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RentalHistory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bike.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RentalHistory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -50,8 +50,13 @@ void Container::printData(string type, int i)
     }
 }
 
-void Container::displayMainData()
+void Container::displayMainData(bool sortReg, bool sortCost)
 {
+    if (sortReg)
+        sort(vehicles.begin(), vehicles.end(), sortByReg());
+    if (sortCost)
+        sort(vehicles.begin(), vehicles.end(), sortByCost());
+
     cout << left << setw(24) << "Registration Number" << left << setw(17) << "Cost Per Day" << left << setw(17) << "Vehicle Type" << endl;
     cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
     vector<Vehicle*>::iterator it;
@@ -111,23 +116,29 @@ void Container::displayFilteredData(string type, int filter, int filterValue)
         case 1 :
             if (filterValue == vehicles[i]->getVal1())
             {
+                if (type == "Bike")
+                    if (typeid(*vehicles[i]) == typeid(Car))
+                        break;
                 filterCount++;
                 cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
                 printData(type, i);
-                break;
             }
-
+            break;
         case 2:
-            if (filterValue == vehicles[i]->getVal2())
+            if ( ((type == "Bike")&&(filterValue >= vehicles[i]->getVal2())) || (filterValue == vehicles[i]->getVal2()) )
             {
+                if (type == "Bike")
+                    if (typeid(*vehicles[i]) == typeid(Car))
+                        break;
                 filterCount++;
                 cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
                 printData(type, i);
-                break;
             }
+            break;
         }
-        
     }
+    if (filterCount == 0)
+        cout << "NO RECORDS FOUND" << endl;
     cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
 }
 
@@ -400,7 +411,7 @@ void Container::search(string type)
         if (type == "Bike")
         {
             cout << "2) Number of wheels" << endl;
-            cout << "3) Engine size" << endl;
+            cout << "3) Max engine size" << endl;
         }
         cout << "9) Return to main menu" << endl;
         cin >> option;
@@ -409,7 +420,10 @@ void Container::search(string type)
         auto searchFilter = [&](string filter)
         {
             cout << "Search by " << type << " " << filter << endl;
-            cout << "Please enter amount of " << filter << ": ";
+            if (filter == "engine")
+                cout << "Please enter maximum " << filter << " size: ";
+            else
+                cout << "Please enter amount of " << filter << ": ";
             int input = 0;
             cin >> input;
 
@@ -419,7 +433,8 @@ void Container::search(string type)
             if (filter == "doors" || filter == "engine")
                 filterNum = 2;
 
-            cout << "List of " << type << "s matching search filter " << filter << endl;
+            SPACE
+            cout << "List of " << type << "s matching search filter: " << input << " " << filter << endl;
             SPACE
             displayFilteredData(type, filterNum, input);
             SPACE
