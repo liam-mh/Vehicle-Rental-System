@@ -24,10 +24,15 @@ public:
     const int getVehicleAge() const;
 
     static bool checkRegFormat(string reg);
-    // friend ofstream& operator<<(ofstream& of, const Vehicle& v);
+    //friend bool operator<(const Vehicle& lhs, const Vehicle& rhs);
 };
 
 inline const string Vehicle::getVehicleReg() const { return registration; }
 inline const string Vehicle::getVehicleMake() const { return make; }
 inline const string Vehicle::getVehicleModel() const { return model; }
 inline const int Vehicle::getVehicleAge() const { return age; }
+
+
+
+
+

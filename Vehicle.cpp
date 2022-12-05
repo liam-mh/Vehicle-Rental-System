@@ -28,13 +28,9 @@ bool Vehicle::checkRegFormat(string reg)
     return false;
 }
 
-//ofstream& operator<<(ofstream& of, const Vehicle& v)
-//{
-//    of 
-//        << v.registration << ', '
-//        << v.type << ', '
-//        << v.make << ', '
-//        << v.model << ', '
-//        << v.age << "\n";
-//    return of;
-//}
+/*
+bool operator<(const Vehicle& lhs, const Vehicle& rhs)
+{
+    return lhs.registration < rhs.registration;
+}
+*/

@@ -131,6 +131,8 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="Disk.h" />
+    <ClInclude Include="Rent.h" />
+    <ClInclude Include="RentalHistory.h" />
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +141,8 @@
     <ClCompile Include="Container.cpp" />
     <ClCompile Include="Disk.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Rent.cpp" />
+    <ClCompile Include="RentalHistory.cpp" />
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
