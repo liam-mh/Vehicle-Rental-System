@@ -1,6 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Bike.h"
 #include "Vehicle.h"
+
+#include <iostream>
+#include <fstream>
 #include <ctime>
 #include <string>
 
@@ -18,4 +21,17 @@ double Bike::costPerDay() const
     /*if (calc < 1000)
         return 10.00;*/
     return calc / 100;
+}
+
+ofstream& operator<<(ofstream& of, const Bike* v)
+{
+    of
+        << v->engine << ","
+        << v->wheels << ","
+        << v->getVehicleReg() << ","
+        << "Bike" << ","
+        << v->getVehicleMake() << ","
+        << v->getVehicleModel() << ","
+        << v->getVehicleAge() << "\n";
+    return of;
 }

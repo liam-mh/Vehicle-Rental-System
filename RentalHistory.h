@@ -10,10 +10,18 @@ class RentalHistory
 private:
     string registration;
     int totalRents = 0;
-    vector<Rent*> rents;
+    Rent* rents = (Rent*)malloc(sizeof(Rent) * totalRents);
 
 public:
-    
+    RentalHistory(string registration);
+    ~RentalHistory();
 
+    const int getTotalRents();
+    void incrementTotalRents();
+
+    void addRent(Rent* newEntry);
+    void resize();
 };
 
+inline const int RentalHistory::getTotalRents() { return totalRents; }
+inline void RentalHistory::incrementTotalRents() { totalRents++; }

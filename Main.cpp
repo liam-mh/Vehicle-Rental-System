@@ -6,6 +6,9 @@
 #include "Car.h"
 #include "Bike.h"
 
+#include "Rent.h"
+#include "RentalHistory.h"
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -24,8 +27,7 @@ int main() {
     /* STORING VEHICLES
     * Whilst implementing reading from disk
     * -----------------------------------------------------------------------------------
-    */
-
+    
     
     Vehicle** PPv = new Vehicle* [10];
 
@@ -41,10 +43,17 @@ int main() {
     for (int i = 0; i < sizeof(PPv); i++)
         container->addItem(PPv[i]);
 
-    /*
+    
     * end
     * -----------------------------------------------------------------------------------
     */
+
+    RentalHistory* rentalHistory = new RentalHistory("GY46 HHH");
+
+    Rent* r = new Rent("GY46 HHH", 1, 5, 25.00, "08 / 12 / 2023", "13 / 12 / 2023", "Liam", "80 Brunswick", "07706666514");
+    
+    //rentalHistory->addRent(r);
+    
 
 
     
@@ -55,6 +64,8 @@ int main() {
     do
     {
         CLEAR_SCREEN;
+
+        
 
         cout << "-----------------------------------------------------" << endl;
         cout << "Vehicle Rental System - Liam Hammond" << endl;
@@ -116,7 +127,7 @@ int main() {
 
 
     #ifdef _DEBUG
-        // _CrtSeBreakAlloc();
+        //_CrtSeBreakAlloc();
         _onexit(_CrtDumpMemoryLeaks);
     #endif
     

@@ -15,8 +15,10 @@
 using namespace std;
 
 
-Container::Container() {};
-Container::~Container() {};
+Container::Container() 
+{}
+Container::~Container() 
+{}
 
 void Container::addItem(Vehicle* vehicle)
 { vehicles.push_back(vehicle); }
@@ -99,7 +101,6 @@ void Container::displayFilteredData(string type, int filter, string filterValue)
     }
     cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
 }
-
 void Container::displayFilteredData(string type, int filter, int filterValue)
 {
     vector<Vehicle*>::iterator it;
