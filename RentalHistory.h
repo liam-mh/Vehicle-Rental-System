@@ -17,10 +17,12 @@ private:
 public:
     RentalHistory(Vehicle* vehicle);
     RentalHistory(Vehicle* vehicle, int totalRents);
+
     ~RentalHistory();
 
     const int getTotalRents();
     void incrementTotalRents();
+
     const double getTotalIncome();
     const int getTotalDays();
 
@@ -32,6 +34,7 @@ public:
 
     void rentalPage();
     void createRent();
+
 };
 
 inline const int RentalHistory::getTotalRents() { return totalRents; }

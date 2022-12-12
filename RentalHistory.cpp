@@ -27,14 +27,17 @@ void RentalHistory::addRent(Rent* newEntry)
 {
     incrementTotalRents();
     resize();
+
     int index = getTotalRents()-1;
     
     if (rents[index] != NULL)
         rents[index] = newEntry;
+
 }
 
 void RentalHistory::resize()
 {
+
     Rent** temp = (Rent**)realloc(rents, sizeof(Rent) * getTotalRents());
     if (!temp)
         free(rents);
@@ -194,3 +197,4 @@ const int RentalHistory::getTotalDays()
     }
     return total;
 }
+

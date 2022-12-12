@@ -64,7 +64,11 @@ int main() {
 
     //rentalHistory->createRent();
 
+    RentalHistory* rentalHistory = new RentalHistory("GY46 HHH");
+
+    Rent* r = new Rent("GY46 HHH", 1, 5, 25.00, "08 / 12 / 2023", "13 / 12 / 2023", "Liam", "80 Brunswick", "07706666514");
     
+    //rentalHistory->addRent(r);
     
     * end
     * -----------------------------------------------------------------------------------
@@ -77,6 +81,8 @@ int main() {
     do
     {
         CLEAR_SCREEN;
+
+        
 
         cout << "-----------------------------------------------------" << endl;
         cout << "Vehicle Rental System - Liam Hammond" << endl;
@@ -134,9 +140,6 @@ int main() {
         newContainer->displayMainData(false, false);
         cin >> option;
     }
-
-
-
 
 #ifdef _DEBUG
     //_CrtSeBreakAlloc();
