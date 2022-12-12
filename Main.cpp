@@ -1,10 +1,13 @@
-#define CLEAR_SCREEN system("cls")
+#define CLEAR_SCREEN system("cls");
 #define SPACE cout << "" << endl;
 #include "Container.h"
 #include "Vehicle.h"
 #include "Disk.h"
 #include "Car.h"
 #include "Bike.h"
+
+#include "Rent.h"
+#include "RentalHistory.h"
 
 #include <algorithm>
 #include <fstream>
@@ -24,8 +27,6 @@ int main() {
     /* STORING VEHICLES
     * Whilst implementing reading from disk
     * -----------------------------------------------------------------------------------
-    */
-
     
     Vehicle** PPv = new Vehicle* [10];
 
@@ -37,17 +38,38 @@ int main() {
     PPv[5] = new Bike(50, 2, "CI92 FSS", "Toyota", "Moped", 2008);
     PPv[6] = new Car(3, 2, "BM99 HDS", "BMW", "M3", 2021);
     PPv[7] = new Bike(883, 2, "SF52 YYT", "Harley Davidson", "Dyna", 2019);
-    
+
     for (int i = 0; i < sizeof(PPv); i++)
         container->addItem(PPv[i]);
-
-    /*
+    
     * end
     * -----------------------------------------------------------------------------------
     */
 
+    /* RENTAL TESTS
+    * Getting rental history working before transferring it to classes
+    * -----------------------------------------------------------------------------------
+    
+    
+    RentalHistory* rentalHistory = new RentalHistory();
+    rentalHistory->displayData();
+    Rent* r = new Rent("GY46 HHH", 1, 5, 25.00, "08 / 12 / 2023", "13 / 12 / 2023", "Liam", "80 Brunswick", "07706666514");
+    Rent* r2 = new Rent("GY46 HHH", 2, 5, 25.00, "08 / 12 / 2023", "13 / 12 / 2023", "Liam", "80 Brunswick", "07706666514");
+
+    rentalHistory->addRent(r);
+    rentalHistory->addRent(r2);
+
+    cout << "new" << endl;
+    rentalHistory->displayData();
+
+    //rentalHistory->createRent();
 
     
+    
+    * end
+    * -----------------------------------------------------------------------------------
+    */
+
     int option;
     bool regFilter = false,
         costFilter = false;
@@ -73,7 +95,7 @@ int main() {
         }
         container->displayMainData(regFilter, costFilter);
         SPACE
-      
+
         cout << "1) Add Vehicle" << endl;
         cout << "2) Remove Vehicle" << endl;
         cout << "3) Search for car" << endl;
@@ -82,26 +104,27 @@ int main() {
         cout << "6) Sort vehicles by cost per day" << endl;
         cout << "9) Exit" << endl;
         SPACE
-        cout << "Please enter option :" << endl;
+            cout << "Please enter option :" << endl;
         cin >> option;
         SPACE
-        
+
         switch (option)
         {
         case 1: CLEAR_SCREEN; container->addItemPage(); break;
         case 2: CLEAR_SCREEN; container->removeItemPage();
         case 3: CLEAR_SCREEN; container->search("Car"); break;
         case 4: CLEAR_SCREEN; container->search("Bike"); break;
-        case 5: CLEAR_SCREEN; regFilter  = true, costFilter = false; break;
-        case 6: CLEAR_SCREEN; costFilter = true, regFilter  = false; break;
+        case 5: CLEAR_SCREEN; regFilter = true, costFilter = false; break;
+        case 6: CLEAR_SCREEN; costFilter = true, regFilter = false; break;
         }
-        
+
 
     } while (option != 9);
 
 
     container->save();
     delete container;
+
 
     Container* newContainer = disk->readVehiclesFromDisk();
 
@@ -112,16 +135,14 @@ int main() {
         cin >> option;
     }
 
-    
 
 
-    #ifdef _DEBUG
-        // _CrtSeBreakAlloc();
-        _onexit(_CrtDumpMemoryLeaks);
-    #endif
-    
-    //delete vehicles;
 
-    cout << "**END OF MAIN.CPP" << endl;
+#ifdef _DEBUG
+    //_CrtSeBreakAlloc();
+    _onexit(_CrtDumpMemoryLeaks);
+#endif
+
+   
     return 0;
 }

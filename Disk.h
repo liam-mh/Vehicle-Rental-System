@@ -12,7 +12,7 @@ public:
     Disk();
     ~Disk();
 
-    Container* readVehiclesFromDisk();
+    static Container* readVehiclesFromDisk();
     static void writeVehicleToDisk(Vehicle* data);
-    //static void writeVehiclesToDisk(Container* data);
+    // static void writeVehiclesToDisk(vector<Vehicle*> data);
 };

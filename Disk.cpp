@@ -1,4 +1,5 @@
 #include "Disk.h"
+#include "Bike.h"
 #include "Car.h"
 #include "Container.h"
 #include "Vehicle.h"
@@ -43,10 +44,14 @@ Container* Disk::readVehiclesFromDisk()
 
             if (type == "Car")
             {
-                Car* c = new Car(var1, var2, registration, make, model, age);
-                container->addItem(c);
+                Vehicle* v = new Car(var1, var2, registration, make, model, age);
+                container->addItem(v);
             }
-            
+            if (type == "Bike")
+            {
+                Vehicle* v = new Bike(var1, var2, registration, make, model, age);
+                container->addItem(v);
+            }
         }
         input.close();
     }
@@ -63,11 +68,13 @@ void Disk::writeVehicleToDisk(Vehicle* data)
     output.open("Vehicle.csv");
     if (output.is_open())
     {
-        Car* test = dynamic_cast<Car*>(data);
-        if (test != nullptr)
-            output << test;
-        else
-            cout << "not a car" << endl;
+        Car* carTest = dynamic_cast<Car*>(data);
+        if (carTest != nullptr)
+            output << carTest;
+        
+        Bike* bikeTest = dynamic_cast<Bike*>(data);
+        if (bikeTest != nullptr)
+            output << bikeTest;
            
         output.close();
     }
@@ -77,28 +84,34 @@ void Disk::writeVehicleToDisk(Vehicle* data)
 }
 
 /*
-void Disk::writeVehiclesToDisk(Container* data)
+void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
 {
+    vector<Vehicle*>::iterator it;
+    int i = 0;
+
     ofstream output;
     output.open("Vehicle.csv");
-    if (output.is_open())
-    {
-        vector<Vehicle*>::iterator it;
-        int i = 0;
-        for (it = data.begin(); it != data.end(); it++, i++)
-        {
-            Car* test = dynamic_cast<Car*>(data);
-            if (test != nullptr)
-                output << test;
-            else
-                cout << "not a car" << endl;
-        }
 
-        output.close();
+    for (it = data.begin(); it != data.end(); it++, i++)
+    {
+        cout << data[i]->getVehicleReg() << endl; // test reg
+        if (output.is_open())
+        {
+            Car* carTest = dynamic_cast<Car*>(data[i]);
+            if (carTest != nullptr)
+                output << carTest;
+
+            Bike* bikeTest = dynamic_cast<Bike*>(data[i]);
+            if (bikeTest != nullptr)
+                output << bikeTest;
+        }
+        else 
+        {
+            cout << "Error: Cannot write to vehicle directory." << endl;
+        }
     }
-    else {
-        cout << "Error: Cannot write to vehicle directory." << endl;
-    }
+
+    output.close();
 }
 */
 

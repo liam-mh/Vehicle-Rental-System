@@ -38,6 +38,7 @@ public:
     void displayMainData(bool sortReg, bool sortCost);
     void displayFilteredData(string type, int filters, int filterValue);
     void displayFilteredData(string type, int filters, string filterValue);
+    int selectFilteredVehicle();
     void printData(string type, int i);
 
     void addItemPage();
@@ -53,6 +54,5 @@ public:
 
     string enterReg(bool checkExists);
 
-    void sortPointers();
-    
+
 };
