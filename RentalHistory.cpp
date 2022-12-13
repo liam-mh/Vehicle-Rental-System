@@ -12,7 +12,9 @@ using namespace std;
 
 RentalHistory::RentalHistory(Vehicle* vehicle)
     : vehicle(vehicle)
-{}
+{
+    
+}
 
 RentalHistory::RentalHistory(Vehicle* vehicle, int totalRents)
     : vehicle(vehicle), totalRents(totalRents)
@@ -77,10 +79,10 @@ void RentalHistory::viewHistory()
         cout << "9) Return to vehicle information screen" << endl;
         cin >> option;
 
-        if (option == 1 && index-1 > 0)
+        if (option == 1 && index-1 > -1)
             index--;
-        if (option == 2 && index+1 < getTotalRents()-1)
-                index++;
+        if (option == 2 && index+1 < getTotalRents())
+            index++;
         if (option == 9)
             break;
     }
@@ -199,5 +201,5 @@ const int RentalHistory::getTotalDays()
 
 void RentalHistory::save()
 {
-    Disk::writeRentalHistoryToDisk(this->rents);
+    Disk::writeRentalHistoryToDisk(this->rents, totalRents);
 }

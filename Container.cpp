@@ -173,9 +173,9 @@ void Container::displayFilteredData(string type, int filter, int filterValue)
             int option = selectFilteredVehicle();
         if (option == NULL)
             return;
-
+        
         Vehicle* selection = vehicles[indexVector[option - 1]];
-        RentalHistory* rh = new RentalHistory(selection);
+        RentalHistory* rh = Disk::readRentalHistoryFromDisk(selection);
         rh->rentalPage();
     }  
 }

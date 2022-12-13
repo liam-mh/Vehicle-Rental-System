@@ -2,6 +2,7 @@
 #include "Bike.h"
 #include "Car.h"
 #include "Container.h"
+#include "Rent.h"
 #include "Vehicle.h"
 
 #include <fstream>
@@ -24,12 +25,12 @@ Container* Disk::readVehiclesFromDisk()
     input.open("Vehicle.csv");
     if (input.is_open())
     {
-        string registration, type, make, model, temp;
+        string registration, type, make, model;
         int age  = 0,
             var1 = 0,
             var2 = 0;
 
-        string line, singleValue;
+        string line, singleValue, temp;
 
         while (getline(input, line))
         {
@@ -55,7 +56,8 @@ Container* Disk::readVehiclesFromDisk()
         }
         input.close();
     }
-    else {
+    else 
+    {
         cout << "Error: Cannot read from vehicle directory." << endl;
     }
     return container;
@@ -115,12 +117,77 @@ void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
 }
 
 
+RentalHistory* Disk::readRentalHistoryFromDisk(Vehicle* vehicle)
+{
+    RentalHistory* rh = new RentalHistory(vehicle);
+
+    ifstream input;
+    input.open("RentalHistory.csv");
+    if (input.is_open())
+    {
+        string registration, startDate, endDate, name, address, number;
+        int rentNum = 0,
+            daysRented = 0;
+        double periodCost = 0.00;
+
+        string line, singleValue, temp;
+
+        while (getline(input, line))
+        {
+            stringstream ss(line);
+            getline(ss, registration, ',');
+            getline(ss, temp, ','); rentNum = stoi(temp);
+            getline(ss, temp, ','); daysRented = stoi(temp);
+            getline(ss, temp, ','); periodCost = stod(temp);
+            getline(ss, startDate, ',');
+            getline(ss, endDate, ',');
+            getline(ss, name, ',');
+            getline(ss, address, ',');
+            getline(ss, number, ',');
+
+            Rent* r = new Rent(registration, rentNum, daysRented, periodCost, startDate, endDate, name, address, number);
+            rh->addRent(r);
+        }
+        input.close();
+    }
+    else 
+    {
+        cout << "Error: Cannot read from rental history directory." << endl;
+    }
+    return rh;
+};
+
+/*
 void Disk::writeRentalHistoryToDisk(Rent** data)
 {
     ofstream output;
     output.open("RentalHistory.csv");
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 1 ; i++)
+    {
+        if (output.is_open())
+        {
+            Rent* rent = data[i];
+            output << rent;
+        }
+        else
+        {
+            cout << "Error: Cannot write to vehicle directory." << endl;
+        }
+    }
+
+    output.close();
+}
+*/
+
+void Disk::writeRentalHistoryToDisk(Rent** data, int quantity)
+{
+    ofstream output;
+    output.open("RentalHistory.csv");
+
+    int i = 0;
+
+    for (int i = 0; i < quantity; i++)
     {
         if (output.is_open())
         {

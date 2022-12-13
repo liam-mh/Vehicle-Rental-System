@@ -17,5 +17,6 @@ public:
     //static void writeVehicleToDisk(Vehicle* data);
     static void writeVehiclesToDisk(vector<Vehicle*> data);
 
-    static void writeRentalHistoryToDisk(Rent** data);
+    static RentalHistory* readRentalHistoryFromDisk(Vehicle* vehicle);
+    static void writeRentalHistoryToDisk(Rent** data, int quantity);
 };
