@@ -29,20 +29,10 @@ void Container::addItem(Vehicle* vehicle)
     vehicles.push_back(vehicle);
 }
 
-/*
-void Container::removeItem(string reg)
-{
-    vector<Vehicle*>::iterator it;
-    int i = 0;
-    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
-    {
-        if (vehicles[i]->getVehicleReg() == reg)
-            vehicles.erase(vehicles.begin() + i);
-    }
-}
-*/
 void Container::removeItem(int index)
 {
+    Vehicle* vehicle = vehicles.at(index);
+    Disk::removeRentalHistory(vehicle);
     vehicles.erase(vehicles.begin() + index);
 }
 
@@ -177,6 +167,7 @@ void Container::displayFilteredData(string type, int filter, int filterValue)
         Vehicle* selection = vehicles[indexVector[option - 1]];
         RentalHistory* rh = Disk::readRentalHistoryFromDisk(selection);
         rh->rentalPage();
+        delete rh;
     }  
 }
 int Container::selectFilteredVehicle()

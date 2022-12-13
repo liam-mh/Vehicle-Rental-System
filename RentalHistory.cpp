@@ -12,9 +12,7 @@ using namespace std;
 
 RentalHistory::RentalHistory(Vehicle* vehicle)
     : vehicle(vehicle)
-{
-    
-}
+{}
 
 RentalHistory::RentalHistory(Vehicle* vehicle, int totalRents)
     : vehicle(vehicle), totalRents(totalRents)
@@ -91,6 +89,7 @@ void RentalHistory::viewHistory()
 void RentalHistory::rentalPage()
 {
     int option = NULL;
+    int newRents = 0;
 
     while (option != 9)
     {
@@ -112,18 +111,19 @@ void RentalHistory::rentalPage()
         SPACE
   
         if (option == 1)
-            createRent();
+            newRents = createRent();
         if (option == 2 && getTotalDays() != 0)
             viewHistory();
         if (option == 9)
             break;
     }
-
-    save();
+    if (newRents != 0)
+        save(newRents);
 }
 
-void RentalHistory::createRent()
+int RentalHistory::createRent()
 {
+    int NewRents = 0;
     int option = NULL;
     int days = 0;
     string from, too, name, address, number;
@@ -174,7 +174,9 @@ void RentalHistory::createRent()
        
         Rent* rent = new Rent(vehicle->getVehicleReg(), totalRents+1, days, cost, from, too, name, address, number);;
         addRent(rent);
+        NewRents++;
     }
+    return NewRents;
 }
 
 const double RentalHistory::getTotalIncome()
@@ -199,7 +201,7 @@ const int RentalHistory::getTotalDays()
     return total;
 }
 
-void RentalHistory::save()
+void RentalHistory::save(int newRents)
 {
-    Disk::writeRentalHistoryToDisk(this->rents, totalRents);
+    Disk::writeRentalHistoryToDisk(this->rents, totalRents, newRents);
 }

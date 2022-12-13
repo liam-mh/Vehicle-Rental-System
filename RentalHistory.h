@@ -10,7 +10,6 @@ class RentalHistory
 {
 private:
     Vehicle* vehicle;
-    //string registration;
     int totalRents = 0;
     Rent** rents = (Rent**)malloc(sizeof(Rent) * totalRents);
 
@@ -31,9 +30,9 @@ public:
     void viewHistory();
 
     void rentalPage();
-    void createRent();
+    int createRent();
 
-    void save();
+    void save(int newRents);
 };
 
 inline const int RentalHistory::getTotalRents() { return totalRents; }

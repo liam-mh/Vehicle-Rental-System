@@ -22,28 +22,6 @@ int main() {
 
     Container* container = Disk::readVehiclesFromDisk();
 
-    /* RENTAL TESTS
-    * Getting rental history working before transferring it to classes
-    * -----------------------------------------------------------------------------------
-    
-    RentalHistory* rentalHistory = new RentalHistory();
-    rentalHistory->displayData();
-    Rent* r = new Rent("GY46 HHH", 1, 5, 25.00, "08 / 12 / 2023", "13 / 12 / 2023", "Liam", "80 Brunswick", "07706666514");
-    Rent* r2 = new Rent("GY46 HHH", 2, 5, 25.00, "08 / 12 / 2023", "13 / 12 / 2023", "Liam", "80 Brunswick", "07706666514");
-
-    rentalHistory->addRent(r);
-    rentalHistory->addRent(r2);
-
-    cout << "new" << endl;
-    rentalHistory->displayData();
-
-    //rentalHistory->createRent();
-
-    
-    * end
-    * -----------------------------------------------------------------------------------
-    */
-
     int option;
     bool regFilter = false,
         costFilter = false;
