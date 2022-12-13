@@ -32,6 +32,8 @@ public:
 
     void rentalPage();
     void createRent();
+
+    void save();
 };
 
 inline const int RentalHistory::getTotalRents() { return totalRents; }

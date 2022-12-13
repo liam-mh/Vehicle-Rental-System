@@ -26,7 +26,6 @@ int main() {
     * Getting rental history working before transferring it to classes
     * -----------------------------------------------------------------------------------
     
-    
     RentalHistory* rentalHistory = new RentalHistory();
     rentalHistory->displayData();
     Rent* r = new Rent("GY46 HHH", 1, 5, 25.00, "08 / 12 / 2023", "13 / 12 / 2023", "Liam", "80 Brunswick", "07706666514");
@@ -40,7 +39,6 @@ int main() {
 
     //rentalHistory->createRent();
 
-    
     
     * end
     * -----------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 #define SPACE cout << "" << endl;
 #include "Rent.h"
 
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 using namespace std;
@@ -43,4 +44,20 @@ void Rent::displayRent(int totalRents)
     cout << left << setw(20) << "Total cost: "    << "\x9C" << getPeriodCost() << endl;
     SPACE
     customer->displayCustomer();
+}
+
+
+ofstream& operator<<(ofstream& of, const Rent* r)
+{
+    of
+        << r->registration << ","
+        << r->rentNum << ","
+        << r->daysRented << ","
+        << r->periodCost << ","
+        << r->startDate << ","
+        << r->endDate << ","
+        << r->customer->name << ","
+        << r->customer->address << ","
+        << r->customer->number << "\n";
+    return of;
 }

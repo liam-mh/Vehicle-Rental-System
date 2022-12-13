@@ -61,7 +61,7 @@ Container* Disk::readVehiclesFromDisk()
     return container;
 };
 
-
+/*
 void Disk::writeVehicleToDisk(Vehicle* data)
 {
     ofstream output;
@@ -82,7 +82,7 @@ void Disk::writeVehicleToDisk(Vehicle* data)
         cout << "Error: Cannot write to vehicle directory." << endl;
     }
 }
-
+*/
 
 
 void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
@@ -95,7 +95,6 @@ void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
 
     for (it = data.begin(); it != data.end(); it++, i++)
     {
-        cout << data[i]->getVehicleReg() << endl; // test reg
         if (output.is_open())
         {
             Car* carTest = dynamic_cast<Car*>(data[i]);
@@ -115,3 +114,24 @@ void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
     output.close();
 }
 
+
+void Disk::writeRentalHistoryToDisk(Rent** data)
+{
+    ofstream output;
+    output.open("RentalHistory.csv");
+
+    for (int i = 0; i < 1; i++)
+    {
+        if (output.is_open())
+        {
+            Rent* rent = data[i];
+            output << rent;
+        }
+        else
+        {
+            cout << "Error: Cannot write to vehicle directory." << endl;
+        }
+    }
+
+    output.close();
+}

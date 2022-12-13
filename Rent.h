@@ -39,6 +39,8 @@ public:
     const string getEndDate();
 
     void displayRent(int totalRents);
+
+    friend ofstream& operator<<(ofstream& of, const Rent* r);
 };
 
 inline const int Rent::getRentNum() { return rentNum; }

@@ -1,6 +1,7 @@
 #define CLEAR_SCREEN system("cls");
 #define SPACE cout << "" << endl;
 #include "RentalHistory.h"
+#include "Disk.h"
 #include "Rent.h"
 
 #include <string>
@@ -115,6 +116,8 @@ void RentalHistory::rentalPage()
         if (option == 9)
             break;
     }
+
+    save();
 }
 
 void RentalHistory::createRent()
@@ -192,4 +195,9 @@ const int RentalHistory::getTotalDays()
         total += current;
     }
     return total;
+}
+
+void RentalHistory::save()
+{
+    Disk::writeRentalHistoryToDisk(this->rents);
 }
