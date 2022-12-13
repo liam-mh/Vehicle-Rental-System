@@ -18,7 +18,6 @@ Rent::Customer::~Customer()
 
 void Rent::Customer::displayCustomer()
 {
-    cout << "-- Customer Details --" << endl;
     cout << left << setw(20) << "Name: "         << left << setw(20) << name << endl;
     cout << left << setw(20) << "Address: "      << left << setw(20) << address << endl;
     cout << left << setw(20) << "Number: "       << left << setw(20) << number << endl;
@@ -42,5 +41,6 @@ void Rent::displayRent(int totalRents)
     cout << left << setw(20) << "Date to: "       << getEndDate() << endl;
     cout << left << setw(20) << "Rental days: "   << getDaysRented() << endl;
     cout << left << setw(20) << "Total cost: "    << "\x9C" << getPeriodCost() << endl;
+    SPACE
     customer->displayCustomer();
 }

@@ -1,5 +1,6 @@
 #include "HELPER_METHODS.h"
 #define SPACE HELPER_METHODS::SPACE();
+#define CLEAR_SCREEN system("cls");
 
 #include "Container.h"
 #include "Bike.h"
@@ -28,6 +29,7 @@ void Container::addItem(Vehicle* vehicle)
     vehicles.push_back(vehicle);
 }
 
+/*
 void Container::removeItem(string reg)
 {
     vector<Vehicle*>::iterator it;
@@ -38,6 +40,7 @@ void Container::removeItem(string reg)
             vehicles.erase(vehicles.begin() + i);
     }
 }
+*/
 void Container::removeItem(int index)
 {
     vehicles.erase(vehicles.begin() + index);
@@ -110,8 +113,7 @@ void Container::displayFilteredData(string type, int filter, string filterValue)
 }
 void Container::displayFilteredData(string type, int filter, int filterValue)
 {
-    vector<Vehicle*> temp;
-
+    vector<int> indexVector;
     vector<Vehicle*>::iterator it;
     int i = 0;
     int filterCount = 0;
@@ -129,10 +131,14 @@ void Container::displayFilteredData(string type, int filter, int filterValue)
                 if (type == "Bike")
                     if (typeid(*vehicles[i]) == typeid(Car))
                         break;
+                if (type == "Car")
+                    if (typeid(*vehicles[i]) == typeid(Bike))
+                        break;
+
                 filterCount++;
-                temp.push_back(vehicles[i]);
-                //cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
-                //printData(type, i);
+                cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
+                printData(type, i);
+                indexVector.push_back(i);
             }
             break;
         case 2:
@@ -142,9 +148,9 @@ void Container::displayFilteredData(string type, int filter, int filterValue)
                     if (typeid(*vehicles[i]) == typeid(Car))
                         break;
                 filterCount++;
-                temp.push_back(vehicles[i]);
-                //cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
-                //printData(type, i);
+                cout << left << setw(4) << filterCount << left << setw(24) << vehicles[i]->getVehicleReg();
+                printData(type, i);
+                indexVector.push_back(i);
             }
             break;
         }
@@ -153,26 +159,25 @@ void Container::displayFilteredData(string type, int filter, int filterValue)
     {
         cout << "NO RECORDS FOUND" << endl;
         cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
-        return;
+        SPACE
+        cout << "9) Return to search menu" << endl;
+        int option = NULL;
+        cin >> option;
+        if (option == 9)
+            return;
     }
-    
-    // printing filtered data
-    i = 0;
-    for (it = temp.begin(); it != temp.end(); it++, i++)
+    else
     {
-        cout << left << setw(4) << i+1 << left << setw(24) << vehicles[i]->getVehicleReg();
-        printData(type, i);
-    }
+        cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
+        SPACE
+            int option = selectFilteredVehicle();
+        if (option == NULL)
+            return;
 
-    SPACE
-    int option = selectFilteredVehicle();
-    if (option == NULL)
-        return;
-
-    Vehicle* selection = temp[option];
-    RentalHistory* rh = new RentalHistory(selection);
-    rh->rentalPage();
-        
+        Vehicle* selection = vehicles[indexVector[option - 1]];
+        RentalHistory* rh = new RentalHistory(selection);
+        rh->rentalPage();
+    }  
 }
 int Container::selectFilteredVehicle()
 {
@@ -180,7 +185,7 @@ int Container::selectFilteredVehicle()
     cout << "Would you like to select a vehicle or return to the menu?" << endl;
     SPACE
     cout << "1) Select a vehicle" << endl;
-    cout << "2) Return to main menu" << endl;
+    cout << "2) Return to search menu" << endl;
     cin >> option;
     SPACE
     if (option == 2)
@@ -289,7 +294,6 @@ void Container::removeItemPage()
             Sleep(3000);
             break;
         }
-
 
         option = NULL;
         cout << "Is this the correct vehicle?:" << endl;
@@ -423,28 +427,7 @@ bool Container::checkRegExists(string reg, bool errorMessage)
 
 void Container::save()
 {
-    vector<Vehicle*>::iterator it;
-    int i = 0;
-    ofstream output;
-    output.open("Vehicle.csv");
-    for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
-    {
-        cout << vehicles[i]->getVehicleReg() << endl;
-        if (output.is_open())
-        {
-            Car* carTest = dynamic_cast<Car*>(vehicles[i]);
-            if (carTest != nullptr)
-                output << carTest; 
-
-            Bike* bikeTest = dynamic_cast<Bike*>(vehicles[i]);
-            if (bikeTest != nullptr)
-                output << bikeTest; 
-        }
-        else {
-            cout << "Error: Cannot write to vehicle directory." << endl;
-        }
-    }
-    output.close();
+    Disk::writeVehiclesToDisk(this->vehicles);
 }
 
 void Container::search(string type)
@@ -453,6 +436,7 @@ void Container::search(string type)
 
     while (option != 9)
     {
+        CLEAR_SCREEN
         cout << "Search for a vehicle" << endl;
         cout << "--------------------" << endl;
         cout << "Here we will search for a " << type << endl;

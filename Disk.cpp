@@ -83,7 +83,8 @@ void Disk::writeVehicleToDisk(Vehicle* data)
     }
 }
 
-/*
+
+
 void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
 {
     vector<Vehicle*>::iterator it;
@@ -113,5 +114,4 @@ void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
 
     output.close();
 }
-*/
 

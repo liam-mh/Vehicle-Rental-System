@@ -7,6 +7,16 @@ class Vehicle
 {
 private:
     string registration, type, make, model;
+    //char* make;
+    
+   /* ifstream >> string make;
+
+    make_char_array = malloc(sizeof(make))
+
+    for (int i = 0; i < make.length; i++){
+        make_char_array[i] = string_make[i];
+    }*/
+
     int age = 0;
 
 public:

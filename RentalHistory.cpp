@@ -27,17 +27,14 @@ void RentalHistory::addRent(Rent* newEntry)
 {
     incrementTotalRents();
     resize();
-
     int index = getTotalRents()-1;
     
     if (rents[index] != NULL)
         rents[index] = newEntry;
-
 }
 
 void RentalHistory::resize()
 {
-
     Rent** temp = (Rent**)realloc(rents, sizeof(Rent) * getTotalRents());
     if (!temp)
         free(rents);
@@ -57,7 +54,7 @@ void RentalHistory::viewHistory()
 {
     
     int option = NULL;
-    int index = getTotalRents() - 1;
+    int index = getTotalRents()-1;
 
     while (option != 9)
     {
@@ -66,25 +63,23 @@ void RentalHistory::viewHistory()
         cout << "------------------------------" << endl;
         rents[index]->displayRent(getTotalRents());
         SPACE
-        cout << "1) View previous record" << endl;
-        cout << "2) View next record" << endl;
+        if (index-1 < 0)
+            cout << " ) Oldest record is being shown already!" << endl;
+        else
+            cout << "1) View previous record" << endl;
+
+        if (index+1 > getTotalRents() - 1)
+            cout << " ) Newest record is being shown already!" << endl;
+        else
+            cout << "2) View next record" << endl;
+
         cout << "9) Return to vehicle information screen" << endl;
         cin >> option;
 
-        if (option == 1)
-        {
-            if (index++ >= getTotalRents() - 1)
-                cout << "Newest record is being shown already!" << endl;
-            else
+        if (option == 1 && index-1 > 0)
+            index--;
+        if (option == 2 && index+1 < getTotalRents()-1)
                 index++;
-        }   
-        if (option == 2)
-        {
-            if (index-- <= 0)
-                cout << "Oldest record is being shown already!" << endl;
-            else
-                index--;
-        }
         if (option == 9)
             break;
     }
@@ -92,11 +87,11 @@ void RentalHistory::viewHistory()
 
 void RentalHistory::rentalPage()
 {
-    CLEAR_SCREEN
     int option = NULL;
 
     while (option != 9)
     {
+        CLEAR_SCREEN
         cout << "Rental Vehicle: " << vehicle->getVehicleMake() << " " << vehicle->getVehicleModel() << endl;
         cout << "------------------------------" << endl;
         cout << left << setw(25) << "Cost per day:" << "\x9C" << vehicle->costPerDay() << endl;
@@ -105,19 +100,20 @@ void RentalHistory::rentalPage()
         SPACE
         cout << "What do you wish to do?" << endl;
         cout << "1) Rent Vehicle" << endl;
-        cout << "2) View Historical Rentals" << endl;
+        if (getTotalDays() == 0)
+            cout << " ) No rental history to display!" << endl;
+        else
+            cout << "2) View Historical Rentals" << endl;
         cout << "9) Return to the main menu" << endl;
         cin >> option;
         SPACE
   
         if (option == 1)
             createRent();
-        if (option == 2)
+        if (option == 2 && getTotalDays() != 0)
             viewHistory();
         if (option == 9)
             break;
-
-        option = NULL;
     }
 }
 
@@ -197,4 +193,3 @@ const int RentalHistory::getTotalDays()
     }
     return total;
 }
-

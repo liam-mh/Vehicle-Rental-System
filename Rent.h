@@ -47,3 +47,4 @@ inline const double Rent::getPeriodCost() { return periodCost; }
 inline const string Rent::getStartDate() { return startDate; }
 inline const string Rent::getEndDate() { return endDate; }
 
+

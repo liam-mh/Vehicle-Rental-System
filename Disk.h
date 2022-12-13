@@ -14,5 +14,5 @@ public:
 
     static Container* readVehiclesFromDisk();
     static void writeVehicleToDisk(Vehicle* data);
-    // static void writeVehiclesToDisk(vector<Vehicle*> data);
+    static void writeVehiclesToDisk(vector<Vehicle*> vehicles);
 };
