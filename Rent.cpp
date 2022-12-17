@@ -1,6 +1,7 @@
 #define SPACE cout << "" << endl;
 #include "Rent.h"
 
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 using namespace std;
@@ -18,10 +19,6 @@ Rent::Customer::~Customer()
 
 void Rent::Customer::displayCustomer()
 {
-    cout << "-- Customer Details --" << endl;
-    /*cout << left << setw(20) << "Name: "         << left << setw(20) << getName() << endl;
-    cout << left << setw(20) << "Address: "      << left << setw(20) << getAddress() << endl;
-    cout << left << setw(20) << "Number: "       << left << setw(20) << getNumber() << endl;*/
     cout << left << setw(20) << "Name: "         << left << setw(20) << name << endl;
     cout << left << setw(20) << "Address: "      << left << setw(20) << address << endl;
     cout << left << setw(20) << "Number: "       << left << setw(20) << number << endl;
@@ -35,7 +32,10 @@ Rent::Rent(string registration, int rentNum, int daysRented, double periodCost, 
 }
 
 Rent::~Rent()
-{}
+{
+    delete customer;
+    customer = nullptr;
+}
 
 
 void Rent::displayRent(int totalRents)
@@ -45,5 +45,22 @@ void Rent::displayRent(int totalRents)
     cout << left << setw(20) << "Date to: "       << getEndDate() << endl;
     cout << left << setw(20) << "Rental days: "   << getDaysRented() << endl;
     cout << left << setw(20) << "Total cost: "    << "\x9C" << getPeriodCost() << endl;
+    SPACE
     customer->displayCustomer();
+}
+
+
+ofstream& operator<<(ofstream& of, const Rent* r)
+{
+    of
+        << r->registration << ","
+        << r->rentNum << ","
+        << r->daysRented << ","
+        << r->periodCost << ","
+        << r->startDate << ","
+        << r->endDate << ","
+        << r->customer->name << ","
+        << r->customer->address << ","
+        << r->customer->number << "\n";
+    return of;
 }

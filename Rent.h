@@ -23,10 +23,6 @@ private:
         Customer(string name, string address, string number);
         ~Customer();
 
-        //const string getName();
-        //const string getAddress();
-        //const string getNumber();
-
         void displayCustomer();
     };
 
@@ -43,6 +39,8 @@ public:
     const string getEndDate();
 
     void displayRent(int totalRents);
+
+    friend ofstream& operator<<(ofstream& of, const Rent* r);
 };
 
 inline const int Rent::getRentNum() { return rentNum; }
@@ -51,7 +49,4 @@ inline const double Rent::getPeriodCost() { return periodCost; }
 inline const string Rent::getStartDate() { return startDate; }
 inline const string Rent::getEndDate() { return endDate; }
 
-//inline const string Rent::Customer::getName() { return name; }
-//inline const string Rent::Customer::getAddress() { return address; }
-//inline const string Rent::Customer::getNumber() { return number; }
 

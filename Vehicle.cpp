@@ -10,7 +10,7 @@ Vehicle::Vehicle(string registration, string type, string make, string model, in
 {}
 
 Vehicle::~Vehicle() 
-{};
+{}
 
 const void Vehicle::displayVehicle()
 {
