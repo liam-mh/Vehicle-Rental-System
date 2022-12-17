@@ -32,7 +32,10 @@ Rent::Rent(string registration, int rentNum, int daysRented, double periodCost, 
 }
 
 Rent::~Rent()
-{}
+{
+    delete customer;
+    customer = nullptr;
+}
 
 
 void Rent::displayRent(int totalRents)

@@ -20,7 +20,11 @@ RentalHistory::RentalHistory(Vehicle* vehicle, int totalRents)
 
 RentalHistory::~RentalHistory()
 {
-    delete[] rents;
+    for (int i = 0; i < totalRents; i++)
+    {
+        delete rents[i];
+    }
+    free(rents);
     rents = nullptr;
 }
 

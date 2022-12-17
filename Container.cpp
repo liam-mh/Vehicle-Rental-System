@@ -22,7 +22,11 @@ using namespace std;
 Container::Container()
 {}
 Container::~Container()
-{}
+{
+    for (Vehicle* v : vehicles)
+        delete v;
+    vehicles.clear();   
+}
 
 void Container::addItem(Vehicle* vehicle)
 {

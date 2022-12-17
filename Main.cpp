@@ -1,5 +1,8 @@
 #define CLEAR_SCREEN system("cls");
 #define SPACE cout << "" << endl;
+
+#define _CRTDBG_MAP_ALLOC
+
 #include "Container.h"
 #include "Vehicle.h"
 #include "Disk.h"
@@ -15,10 +18,17 @@
 #include <iomanip>
 #include <sstream>
 #include <stdlib.h>
+
+#include <crtdbg.h>
 using namespace std;
 
 
 int main() {
+
+#ifdef _DEBUG
+    //_CrtSetBreakAlloc(309);
+    _onexit(_CrtDumpMemoryLeaks);
+#endif
 
     Container* container = Disk::readVehiclesFromDisk();
 
@@ -76,12 +86,7 @@ int main() {
 
     container->save();
     delete container;
-
-
-#ifdef _DEBUG
-    //_CrtSeBreakAlloc();
-    _onexit(_CrtDumpMemoryLeaks);
-#endif
+  
 
     return 0;
 }
