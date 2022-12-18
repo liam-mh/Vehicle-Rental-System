@@ -6,16 +6,8 @@ using namespace std;
 class Vehicle
 {
 private:
-    string registration, type, make, model;
-    //char* make;
-    
-   /* ifstream >> string make;
-
-    make_char_array = malloc(sizeof(make))
-
-    for (int i = 0; i < make.length; i++){
-        make_char_array[i] = string_make[i];
-    }*/
+    string registration, type, model;
+    char* make;
 
     int age = 0;
 
@@ -38,10 +30,13 @@ public:
 };
 
 inline const string Vehicle::getVehicleReg() const { return registration; }
-inline const string Vehicle::getVehicleMake() const { return make; }
+inline const string Vehicle::getVehicleMake() const 
+{ 
+    string make((*this).make);
+    return make;
+}
 inline const string Vehicle::getVehicleModel() const { return model; }
 inline const int Vehicle::getVehicleAge() const { return age; }
-
 
 
 

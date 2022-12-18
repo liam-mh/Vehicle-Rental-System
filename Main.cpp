@@ -1,8 +1,6 @@
 #define CLEAR_SCREEN system("cls");
 #define SPACE cout << "" << endl;
 
-#define _CRTDBG_MAP_ALLOC
-
 #include "Container.h"
 #include "Vehicle.h"
 #include "Disk.h"

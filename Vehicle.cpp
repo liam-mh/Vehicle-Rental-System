@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Vehicle.h"
 
 #include <fstream>
@@ -6,11 +7,17 @@
 
 
 Vehicle::Vehicle(string registration, string type, string make, string model, int age) 
-    : registration(registration), type(type), make(make), model(model), age(age) 
-{}
+    : registration(registration), type(type),  model(model), age(age) 
+{
+    this->make = new char[make.length() + 1];
+    strcpy(this->make, make.c_str());
+}
 
 Vehicle::~Vehicle() 
-{}
+{
+    delete make;
+    make = nullptr;
+}
 
 const void Vehicle::displayVehicle()
 {
