@@ -30,7 +30,7 @@ RentalHistory::~RentalHistory()
 
 void RentalHistory::addRent(Rent* newEntry)
 {
-    incrementTotalRents();
+    totalRents++;
     resize();
     int index = getTotalRents()-1;
     

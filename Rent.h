@@ -32,21 +32,16 @@ public:
     Rent(string registration, int rentNum, int daysRented, double periodCost, string startDate, string endDate, string name, string address, string number);
     ~Rent();
 
-    const int getRentNum();
     const int getDaysRented();
     const double getPeriodCost();
-    const string getStartDate();
-    const string getEndDate();
 
-    void displayRent(int totalRents);
+    void const displayRent(int totalRents);
   
     friend ofstream& operator<<(ofstream& of, const Rent* r);
 };
 
-inline const int Rent::getRentNum() { return rentNum; }
 inline const int Rent::getDaysRented() { return daysRented; }
 inline const double Rent::getPeriodCost() { return periodCost; }
-inline const string Rent::getStartDate() { return startDate; }
-inline const string Rent::getEndDate() { return endDate; }
+
 
 
