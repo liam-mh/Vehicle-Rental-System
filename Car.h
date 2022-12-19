@@ -17,7 +17,6 @@ public:
 
     friend ofstream& operator<<(ofstream& of, const Car* v);
 };
-
 inline const int Car::getVal1() { return seats; }
 inline const int Car::getVal2() { return doors; }
 

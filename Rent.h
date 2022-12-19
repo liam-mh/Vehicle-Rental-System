@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <iostream>
 using namespace std;
 
 class Rent
@@ -39,7 +39,7 @@ public:
     const string getEndDate();
 
     void displayRent(int totalRents);
-
+  
     friend ofstream& operator<<(ofstream& of, const Rent* r);
 };
 

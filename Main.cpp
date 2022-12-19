@@ -2,30 +2,20 @@
 #define SPACE cout << "" << endl;
 
 #include "Container.h"
-#include "Vehicle.h"
 #include "Disk.h"
-#include "Car.h"
-#include "Bike.h"
 
-#include "Rent.h"
-#include "RentalHistory.h"
-
-#include <algorithm>
-#include <fstream>
 #include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <stdlib.h>
-
-#include <crtdbg.h>
 using namespace std;
 
+#ifdef _DEBUG
+    //#include <crtdbg.h>
+#endif
 
 int main() {
 
 #ifdef _DEBUG
-    //_CrtSetBreakAlloc(309);
-    _onexit(_CrtDumpMemoryLeaks);
+    //_CrtSetBreakAlloc();
+    //_onexit(_CrtDumpMemoryLeaks);
 #endif
 
     Container* container = Disk::readVehiclesFromDisk();
@@ -37,25 +27,19 @@ int main() {
     do
     {
         CLEAR_SCREEN;
-
         cout << "-----------------------------------------------------" << endl;
         cout << "Vehicle Rental System - Liam Hammond" << endl;
         cout << "-----------------------------------------------------" << endl;
 
-        SPACE
-        if (regFilter)
-        {
-            cout << "Filtered by registration, in ascending order" << endl;
-            SPACE
-        }
+        // Sorting display by filter
+        if (regFilter) 
+            cout << "\nFiltered by registration, in ascending order\n" << endl;
         if (costFilter)
-        {
-            cout << "Filtered by cost per day, in ascending order" << endl;
-            SPACE
-        }
+            cout << "\nFiltered by cost per day, in ascending order\n" << endl;   
         container->displayMainData(regFilter, costFilter);
         SPACE
 
+        // User options
         cout << "1) Add Vehicle" << endl;
         cout << "2) Remove Vehicle" << endl;
         cout << "3) Search for car" << endl;
@@ -67,24 +51,18 @@ int main() {
         cout << "Please enter option :" << endl;
         cin >> option;
         SPACE
-
         switch (option)
         {
-        case 1: CLEAR_SCREEN; container->addItemPage(); break;
-        case 2: CLEAR_SCREEN; container->removeItemPage(); break;
-        case 3: CLEAR_SCREEN; container->search("Car"); break;
-        case 4: CLEAR_SCREEN; container->search("Bike"); break;
-        case 5: CLEAR_SCREEN; regFilter = true, costFilter = false; break;
-        case 6: CLEAR_SCREEN; costFilter = true, regFilter = false; break;
+            case 1: CLEAR_SCREEN; container->addItemPage(); break;
+            case 2: CLEAR_SCREEN; container->removeItemPage(); break;
+            case 3: CLEAR_SCREEN; container->searchForVehiclePage("Car"); break;
+            case 4: CLEAR_SCREEN; container->searchForVehiclePage("Bike"); break;
+            case 5: CLEAR_SCREEN; regFilter = true, costFilter = false; break;
+            case 6: CLEAR_SCREEN; costFilter = true, regFilter = false; break;
         }
-
-
     } while (option != 9);
 
-
-    container->save();
     delete container;
-  
 
     return 0;
 }

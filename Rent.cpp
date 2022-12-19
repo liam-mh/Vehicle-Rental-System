@@ -49,7 +49,6 @@ void Rent::displayRent(int totalRents)
     customer->displayCustomer();
 }
 
-
 ofstream& operator<<(ofstream& of, const Rent* r)
 {
     of

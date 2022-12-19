@@ -16,8 +16,6 @@ public:
     virtual double costPerDay() const override;
 
     friend ofstream& operator<<(ofstream& of, const Bike* v);
-
 };
-
 inline const int Bike::getVal1() { return wheels; }
 inline const int Bike::getVal2() { return engine; }

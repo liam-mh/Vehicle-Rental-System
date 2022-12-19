@@ -1,15 +1,10 @@
 #pragma once
 #include "Container.h"
 #include "RentalHistory.h"
-//#include "Vehicle.h"
-#include <vector>
 
 class Disk
 {
-private:
-
 public:
-
     Disk();
     ~Disk();
 
