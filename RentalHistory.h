@@ -2,38 +2,36 @@
 #include "Rent.h"
 #include "Vehicle.h"
 
-#include <vector>
-#include <string>
 using namespace std;
 
 class RentalHistory
 {
 private:
-    Vehicle* vehicle;
+    const Vehicle* vehicle;
     int totalRents = 0;
     Rent** rents = (Rent**)malloc(sizeof(Rent) * totalRents);
 
 public:
     RentalHistory(Vehicle* vehicle);
-    RentalHistory(Vehicle* vehicle, int totalRents);
     ~RentalHistory();
 
-    const int getTotalRents();
-    void incrementTotalRents();
-    const double getTotalIncome();
-    const int getTotalDays();
-
+    // Array manipulators
     void addRent(Rent* newEntry);
     void resize();
 
+    // Display content
     void displayData();
     void viewHistory();
 
+    // User input 
     void rentalPage();
     int createRent();
+
+    const int getTotalRents();
+    const double getTotalIncome();
+    const int getTotalDays();
 
     void save(int newRents);
 };
 
 inline const int RentalHistory::getTotalRents() { return totalRents; }
-inline void RentalHistory::incrementTotalRents() { totalRents++; }

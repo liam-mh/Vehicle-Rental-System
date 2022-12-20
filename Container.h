@@ -1,29 +1,10 @@
 #pragma once
-#include "Car.h"
 #include "Vehicle.h"
 
 #include <vector>
-using namespace std;
 
 class Container
 {
-    class sortByReg
-    {
-    public:
-        bool operator() (Vehicle* a, Vehicle* b)
-        {
-            return a->getVehicleReg() < b->getVehicleReg();
-        }
-    };
-    class sortByCost
-    {
-    public:
-        bool operator() (Vehicle* a, Vehicle* b)
-        {
-            return a->costPerDay() < b->costPerDay();
-        }
-    };
-
 private:
     vector<Vehicle*> vehicles;
 
@@ -31,28 +12,21 @@ public:
     Container();
     ~Container();
 
+    // Vector manipulators 
     void addItem(Vehicle* vehicle);
-    void removeItem(string reg);
     void removeItem(int index);
 
+    // Display vector content
     void displayMainData(bool sortReg, bool sortCost);
     void displayFilteredData(string type, int filters, int filterValue);
-    void displayFilteredData(string type, int filters, string filterValue);
     int selectFilteredVehicle();
-    void printData(string type, int i);
+    void printFilteredVehicleData(string type, int i);
 
+    // User input 
     void addItemPage();
     void removeItemPage();
-
-    void create(string type);
-
-    bool checkRegExists(string reg, bool errorMessage);
-
-    void search(string type);
-
-    void save();
-
-    string enterReg(bool checkExists);
-
-
+    void createVehiclePage(string type);
+    void searchForVehiclePage(string type);
+    string userEnterReg(bool checkExists, bool alreadyExistsErrorMessage);
+    bool checkRegExists(string reg, bool alreadyExistsErrorMessage);
 };

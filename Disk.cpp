@@ -3,16 +3,13 @@
 #include "Car.h"
 #include "Container.h"
 #include "Rent.h"
-#include "Vehicle.h"
 
 #include <fstream>
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include <string>
-#include <utility>
+//#include <string>
 using namespace std;
-
 
 Disk::Disk() {}
 Disk::~Disk() {}
@@ -63,6 +60,7 @@ Container* Disk::readVehiclesFromDisk()
     }
     return container;
 };
+
 void Disk::writeVehiclesToDisk(vector<Vehicle*> data)
 {
     vector<Vehicle*>::iterator it;
@@ -135,6 +133,7 @@ RentalHistory* Disk::readRentalHistoryFromDisk(Vehicle* vehicle)
     
     return rh;
 };
+
 void Disk::writeRentalHistoryToDisk(Rent** data, int totalRents, int newRents)
 {
     ofstream output;
@@ -154,6 +153,7 @@ void Disk::writeRentalHistoryToDisk(Rent** data, int totalRents, int newRents)
     }
     output.close();
 }
+
 void Disk::removeRentalHistory(Vehicle* vehicle)
 {
     ifstream input;

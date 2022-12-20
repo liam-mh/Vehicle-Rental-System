@@ -1,4 +1,3 @@
-#define SPACE cout << "" << endl;
 #include "Rent.h"
 
 #include <fstream>
@@ -19,9 +18,9 @@ Rent::Customer::~Customer()
 
 void Rent::Customer::displayCustomer()
 {
-    cout << left << setw(20) << "Name: "         << left << setw(20) << name << endl;
-    cout << left << setw(20) << "Address: "      << left << setw(20) << address << endl;
-    cout << left << setw(20) << "Number: "       << left << setw(20) << number << endl;
+    cout << left << setw(20) << "Name: " << name << endl;
+    cout << left << setw(20) << "Address: " << address << endl;
+    cout << left << setw(20) << "Number: " << number << endl;
 }
 
 // Rent
@@ -37,18 +36,15 @@ Rent::~Rent()
     customer = nullptr;
 }
 
-
-void Rent::displayRent(int totalRents)
+void const Rent::displayRent(int totalRents)
 {
-    cout << left << setw(20) << "Rental number: " << getRentNum() << " of " << totalRents << endl;
-    cout << left << setw(20) << "Date from: "     << getStartDate() << endl;
-    cout << left << setw(20) << "Date to: "       << getEndDate() << endl;
-    cout << left << setw(20) << "Rental days: "   << getDaysRented() << endl;
-    cout << left << setw(20) << "Total cost: "    << "\x9C" << getPeriodCost() << endl;
-    SPACE
+    cout << left << setw(20) << "Rental number: " << rentNum << " of " << totalRents << endl;
+    cout << left << setw(20) << "Date from: " << startDate << endl;
+    cout << left << setw(20) << "Date to: " << endDate << endl;
+    cout << left << setw(20) << "Rental days: " << daysRented << endl;
+    cout << left << setw(20) << "Total cost: " << "\x9C" << periodCost << "\n" << endl;
     customer->displayCustomer();
 }
-
 
 ofstream& operator<<(ofstream& of, const Rent* r)
 {
