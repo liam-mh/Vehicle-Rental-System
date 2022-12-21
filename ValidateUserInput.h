@@ -1,5 +1,27 @@
 #ifndef VALIDATE_H
 #define VALIDATE_H
+/*
+* ValidateUserInput.h - A template for input validation.
+* 
+* Methods included:
+*   void global(T option)
+*   bool checkOption(T &input, T total)
+*   bool checkOption(T &input, T options[])
+*   bool checkOption(T& input, T total, T single)
+*   void validateUserInput(T &input)
+*   void validateUserInput<string>(string& input)
+*   void validateUserInput(T& input, T total)
+*   void validateUserInput(T& input, T total, T single)
+*   void validateRegistrationInput<string>(string &input)
+*   void validateMobileInput<string>(string &input)
+
+* Code idea
+* https://gist.github.com/mikeDevInMyDreams/0b693087ae35342c9094
+* I was finding the best way to validate user input with try - catch blocks. 
+* However using a template would allow easy repetiton of code.
+* I have used this repo to help aid some design in this template.
+* I have taken elements from it, and implemented them to best fit my systems needs.
+*/
 
 #include <iostream>
 #include <regex>

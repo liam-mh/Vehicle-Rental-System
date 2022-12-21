@@ -16,7 +16,7 @@ int main() {
 
 #ifdef _DEBUG
     //_CrtSetBreakAlloc();
-    //_onexit(_CrtDumpMemoryLeaks);
+    _onexit(_CrtDumpMemoryLeaks);
 #endif
 
     Container* container = Disk::readVehiclesFromDisk();

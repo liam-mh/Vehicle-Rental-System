@@ -48,6 +48,8 @@ void Container::operator+(Vehicle* newEntry)
 // Display vector content
 void Container::displayMainData(bool sortReg, bool sortCost)
 {
+    Car* checkIfCar = nullptr;
+    string type;
     vector<Vehicle*>::iterator it;
     int i = 0;
 
@@ -63,9 +65,11 @@ void Container::displayMainData(bool sortReg, bool sortCost)
     cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
     for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
     {
+        checkIfCar = dynamic_cast<Car*>(vehicles[i]);
+        type = checkIfCar ? "Car" : "Bike";
+
         cout << left << setw(24) << vehicles[i]->getVehicleReg();
         cout << left << setw(17) << setprecision(2) << fixed << vehicles[i]->costPerDay();
-        string type = typeid(*vehicles[i]) == typeid(Car) ? "Car" : "Bike";
         cout << left << setw(17) << type << endl;
     }
     cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;

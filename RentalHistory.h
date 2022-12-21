@@ -31,9 +31,9 @@ public:
     const int getTotalRents();
     const double getTotalIncome();
     const int getTotalDays();
+    
 
     void save(int newRents);
     
 };
-
 inline const int RentalHistory::getTotalRents() { return totalRents; }
