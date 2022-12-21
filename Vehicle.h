@@ -24,7 +24,6 @@ public:
     virtual double costPerDay() const = 0;
     virtual const void displayVehicle();
 
-    static bool checkRegFormat(string reg); 
     bool operator<(const Vehicle* rhs);
 };
 inline const string Vehicle::getVehicleReg() const { return registration; }

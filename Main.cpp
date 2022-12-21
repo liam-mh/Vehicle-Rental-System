@@ -3,6 +3,7 @@
 
 #include "Container.h"
 #include "Disk.h"
+//#include "ValidateUserInput.h"
 
 #include <iostream>
 using namespace std;
@@ -20,7 +21,7 @@ int main() {
 
     Container* container = Disk::readVehiclesFromDisk();
 
-    int option;
+    int option = 0;
     bool regFilter = false,
         costFilter = false;
 
@@ -50,6 +51,7 @@ int main() {
         SPACE
         cout << "Please enter option :" << endl;
         cin >> option;
+        //validateUserInput(option, 6, 9);
         SPACE
         switch (option)
         {

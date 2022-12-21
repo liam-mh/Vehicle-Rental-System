@@ -1,8 +1,10 @@
 #define CLEAR_SCREEN system("cls");
 #define SPACE cout << "\n";
+
 #include "RentalHistory.h"
 #include "Disk.h"
 #include "Rent.h"
+//#include "ValidateUserInput.h"
 
 #include <string>
 #include <iostream>
@@ -81,6 +83,7 @@ void RentalHistory::viewHistory()
             cout << "2) View next record" << endl;
 
         cout << "9) Return to vehicle information screen" << endl;
+        //validateUserInput(option, 2, 9);
         cin >> option;
 
         if (option == 1 && index-1 > -1)
@@ -114,6 +117,7 @@ void RentalHistory::rentalPage()
         else
             cout << "2) View Historical Rentals" << endl;
         cout << "9) Return to the main menu" << endl;
+        //validateUserInput(option, 2, 9);
         cin >> option;
         SPACE
   
@@ -142,42 +146,44 @@ int RentalHistory::createRent()
         cout << "Do you wish to continue and rent this vehicle?" << endl;
         cout << "1) Yes" << endl;
         cout << "2) No" << endl;
+        //validateUserInput(option, 2, 9);
         cin >> option;
-        SPACE
         if (option == 2)
             break;
-        option = NULL;
+        SPACE
 
+        option = NULL;
         cout << "Please enter the following details:" << endl;
-        cout << left << setw(20) << "Starting Date: ";    cin >> from;
-        cout << left << setw(20) << "Finish Date: ";      cin >> too;
-        cout << left << setw(20) << "Number of days: ";   cin >> days;
-        cout << left << setw(20) << "Customer Name: ";    cin >> name;
-        cout << left << setw(20) << "Customer Address: "; cin >> address;
-        cout << left << setw(20) << "Customer Number: ";  cin >> number;
+        cout << left << setw(20) << "Starting Date: "; cin >> from;//validateUserInput(from);
+        cout << left << setw(20) << "Finish Date: "; cin >> too;   //validateUserInput(too);
+        cout << left << setw(20) << "Number of days: ";  cin >> days; //validateUserInput(days);
+        cout << left << setw(20) << "Customer Name: ";   cin >> name; //validateUserInput(name);
+        cout << left << setw(20) << "Customer Address: "; cin >> address;//validateUserInput(address);
+        cout << left << setw(20) << "Customer Number: ";  cin >> number;//validateMobileInput(number);
         SPACE
         cout << "Please confirm the details above are correct" << endl;
         cout << "1) Yes" << endl;
         cout << "2) No" << endl;
+        //validateUserInput(option, 2, 9);
         cin >> option;
-        SPACE
         if (option == 2)
             break;
-        option = NULL;
+        SPACE
 
+        option = NULL;
         cout << "The breakdown of rental cost:" << endl;
         cout << "Cost per day: " << "\x9C" << vehicle->costPerDay() << endl;
         cout << "Days being rented: " << days << endl;
         double cost = vehicle->costPerDay() * days;
         cout << "TOTAL COST: " << "\x9C" << cost << endl;
-
         cout << "Do you wish to continue?" << endl;
         cout << "1) Yes" << endl;
         cout << "2) No" << endl;
+        //validateUserInput(option, 2, 9);
         cin >> option;
-        SPACE
         if (option == 2)
             break;
+        SPACE
        
         Rent* rent = new Rent(vehicle->getVehicleReg(), totalRents+1, days, cost, from, too, name, address, number);;
         addRent(rent);

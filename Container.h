@@ -27,8 +27,8 @@ public:
     void removeItemPage();
     void createVehiclePage(string type);
     void searchForVehiclePage(string type);
+    // Helping user input
     void selectForRentalHistory(int totalOptions);
-
-    string userEnterReg(bool checkExists, bool alreadyExistsErrorMessage);
+    string userEnterReg(bool alreadyExistsErrorMessage);
     bool checkRegExists(string reg, bool alreadyExistsErrorMessage);
 };
