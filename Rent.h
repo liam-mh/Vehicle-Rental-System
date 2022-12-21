@@ -5,19 +5,16 @@ using namespace std;
 class Rent
 {
 private:
-    string registration;
-    int rentNum = 0,
-        daysRented = 0;
-    double periodCost = 0.00;
-    string startDate;
-    string endDate;
 
     class Customer
     {
+        //friend class Rent;
+    //private:
+
     public:
         string name;
         string address;
-        string number; 
+        string number;
 
         Customer();
         Customer(string name, string address, string number);
@@ -26,6 +23,12 @@ private:
         void displayCustomer();
     };
 
+    string registration;
+    int rentNum = 0,
+        daysRented = 0;
+    double periodCost = 0.00;
+    string startDate;
+    string endDate;
     Customer* customer;
 
 public:
@@ -34,14 +37,9 @@ public:
 
     const int getDaysRented();
     const double getPeriodCost();
-
     void const displayRent(int totalRents);
   
     friend ofstream& operator<<(ofstream& of, const Rent* r);
 };
-
 inline const int Rent::getDaysRented() { return daysRented; }
 inline const double Rent::getPeriodCost() { return periodCost; }
-
-
-

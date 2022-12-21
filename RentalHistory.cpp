@@ -1,5 +1,5 @@
 #define CLEAR_SCREEN system("cls");
-#define SPACE cout << "" << endl;
+#define SPACE cout << "\n";
 #include "RentalHistory.h"
 #include "Disk.h"
 #include "Rent.h"
@@ -14,10 +14,6 @@ RentalHistory::RentalHistory(Vehicle* vehicle)
     : vehicle(vehicle)
 {}
 
-RentalHistory::RentalHistory(Vehicle* vehicle, int totalRents)
-    : vehicle(vehicle), totalRents(totalRents)
-{}
-
 RentalHistory::~RentalHistory()
 {
     for (int i = 0; i < totalRents; i++)
@@ -28,6 +24,7 @@ RentalHistory::~RentalHistory()
     rents = nullptr;
 }
 
+// Array manipulators
 void RentalHistory::addRent(Rent* newEntry)
 {
     totalRents++;
@@ -47,6 +44,12 @@ void RentalHistory::resize()
         rents = temp;
 }
 
+void RentalHistory::operator+(Rent* newEntry)
+{
+    addRent(newEntry);
+}
+
+// Display content
 void RentalHistory::displayData()
 {
     for (int i = 0; i < getTotalRents(); i++)
@@ -57,7 +60,6 @@ void RentalHistory::displayData()
 
 void RentalHistory::viewHistory()
 {
-    
     int option = NULL;
     int index = getTotalRents()-1;
 
@@ -90,6 +92,7 @@ void RentalHistory::viewHistory()
     }
 }
 
+// User input
 void RentalHistory::rentalPage()
 {
     int option = NULL;
@@ -141,8 +144,8 @@ int RentalHistory::createRent()
         cout << "2) No" << endl;
         cin >> option;
         SPACE
-            if (option == 2)
-                break;
+        if (option == 2)
+            break;
         option = NULL;
 
         cout << "Please enter the following details:" << endl;
@@ -158,8 +161,8 @@ int RentalHistory::createRent()
         cout << "2) No" << endl;
         cin >> option;
         SPACE
-            if (option == 2)
-                break;
+        if (option == 2)
+            break;
         option = NULL;
 
         cout << "The breakdown of rental cost:" << endl;
@@ -173,8 +176,8 @@ int RentalHistory::createRent()
         cout << "2) No" << endl;
         cin >> option;
         SPACE
-            if (option == 2)
-                break;
+        if (option == 2)
+            break;
        
         Rent* rent = new Rent(vehicle->getVehicleReg(), totalRents+1, days, cost, from, too, name, address, number);;
         addRent(rent);
@@ -182,6 +185,7 @@ int RentalHistory::createRent()
     }
     return NewRents;
 }
+
 
 const double RentalHistory::getTotalIncome()
 {
@@ -209,3 +213,5 @@ void RentalHistory::save(int newRents)
 {
     Disk::writeRentalHistoryToDisk(this->rents, totalRents, newRents);
 }
+
+

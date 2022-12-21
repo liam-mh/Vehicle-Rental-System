@@ -1,5 +1,5 @@
 #define CLEAR_SCREEN system("cls");
-#define SPACE cout << "" << endl;
+#define SPACE cout << "\n";
 
 #include "Container.h"
 #include "Disk.h"
@@ -31,9 +31,9 @@ int main() {
         cout << "Vehicle Rental System - Liam Hammond" << endl;
         cout << "-----------------------------------------------------" << endl;
 
-        // Sorting display by filter
+        // Display data
         if (regFilter) 
-            cout << "\nFiltered by registration, in ascending order\n" << endl;
+            cout << "\nFiltered by registration, in alphabetical order\n" << endl;
         if (costFilter)
             cout << "\nFiltered by cost per day, in ascending order\n" << endl;   
         container->displayMainData(regFilter, costFilter);
@@ -58,7 +58,7 @@ int main() {
             case 3: CLEAR_SCREEN; container->searchForVehiclePage("Car"); break;
             case 4: CLEAR_SCREEN; container->searchForVehiclePage("Bike"); break;
             case 5: CLEAR_SCREEN; regFilter = true, costFilter = false; break;
-            case 6: CLEAR_SCREEN; costFilter = true, regFilter = false; break;
+            case 6: CLEAR_SCREEN; regFilter = false, costFilter = true; break;
         }
     } while (option != 9);
 

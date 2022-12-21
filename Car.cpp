@@ -28,7 +28,7 @@ double Car::costPerDay() const
     int currentYear = (tP->tm_year)+1900;
     // ----------------------------------
     int age = currentYear - getVehicleAge();
-    double calc = 2500-(age*150)-(doors*200);
+    double calc = 2500.00-(age*150)-(doors*200);
     if (calc < 1000)
         return 10.00;
     return calc/100;

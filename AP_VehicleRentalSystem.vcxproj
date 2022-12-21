@@ -131,9 +131,9 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="Disk.h" />
-    <ClInclude Include="HELPER_METHODS.h" />
     <ClInclude Include="Rent.h" />
     <ClInclude Include="RentalHistory.h" />
+    <ClInclude Include="ValidateUserInput.h" />
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>

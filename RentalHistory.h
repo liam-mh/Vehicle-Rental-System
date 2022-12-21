@@ -13,12 +13,12 @@ private:
 
 public:
     RentalHistory(Vehicle* vehicle);
-    RentalHistory(Vehicle* vehicle, int totalRents);
     ~RentalHistory();
 
     // Array manipulators
     void addRent(Rent* newEntry);
     void resize();
+    void operator+(Rent* newEntry);
 
     // Display content
     void displayData();
@@ -33,6 +33,7 @@ public:
     const int getTotalDays();
 
     void save(int newRents);
+    
 };
 
 inline const int RentalHistory::getTotalRents() { return totalRents; }

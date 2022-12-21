@@ -36,7 +36,7 @@
     <ClInclude Include="Rent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HELPER_METHODS.h">
+    <ClInclude Include="ValidateUserInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
