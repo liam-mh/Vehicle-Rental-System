@@ -31,4 +31,6 @@ public:
     void selectForRentalHistory(int totalOptions);
     string userEnterReg(bool alreadyExistsErrorMessage);
     bool checkRegExists(string reg, bool alreadyExistsErrorMessage);
+    void sortByReg();
+    void sortByCost();
 };

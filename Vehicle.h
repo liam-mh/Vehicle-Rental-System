@@ -23,8 +23,7 @@ public:
     virtual const int getVal2() = 0;
     virtual double costPerDay() const = 0;
     virtual const void displayVehicle();
-
-    bool operator<(const Vehicle* rhs);
+    virtual string getVehicleType() = 0;
 };
 inline const string Vehicle::getVehicleReg() const { return registration; }
 inline const string Vehicle::getVehicleMake() const 

@@ -3,27 +3,26 @@
 
 #include "Container.h"
 #include "Disk.h"
-//#include "ValidateUserInput.h"
+#include "ValidateUserInput.h"
 
 #include <iostream>
 using namespace std;
 
 #ifdef _DEBUG
-    //#include <crtdbg.h>
+    #include <crtdbg.h>
 #endif
 
 int main() {
 
 #ifdef _DEBUG
-    //_CrtSetBreakAlloc();
+    //_CrtSetBreakAlloc(537);
     _onexit(_CrtDumpMemoryLeaks);
 #endif
-
+    
     Container* container = Disk::readVehiclesFromDisk();
 
     int option = 0;
-    bool regFilter = false,
-        costFilter = false;
+    bool byReg = false;
 
     do
     {
@@ -33,10 +32,10 @@ int main() {
         cout << "-----------------------------------------------------" << endl;
 
         // Display data
-        if (regFilter) 
+        if (byReg) 
             cout << "\nFiltered by registration, in alphabetical order\n" << endl;
-        if (costFilter)
-            cout << "\nFiltered by cost per day, in ascending order\n" << endl;   
+        else
+            cout << "\nFiltered by cost per day, in ascending order\n" << endl;  
         container->displayMainData(regFilter, costFilter);
         SPACE
 
@@ -50,8 +49,7 @@ int main() {
         cout << "9) Exit" << endl;
         SPACE
         cout << "Please enter option :" << endl;
-        cin >> option;
-        //validateUserInput(option, 6, 9);
+        ValidateUserInput::getInstance()->validateUserInput(option, 6, 9);
         SPACE
         switch (option)
         {
@@ -59,12 +57,13 @@ int main() {
             case 2: CLEAR_SCREEN; container->removeItemPage(); break;
             case 3: CLEAR_SCREEN; container->searchForVehiclePage("Car"); break;
             case 4: CLEAR_SCREEN; container->searchForVehiclePage("Bike"); break;
-            case 5: CLEAR_SCREEN; regFilter = true, costFilter = false; break;
-            case 6: CLEAR_SCREEN; regFilter = false, costFilter = true; break;
+            case 5: CLEAR_SCREEN; container->sortByReg(); byReg = true; break;
+            case 6: CLEAR_SCREEN; container->sortByCost(); byReg = false; break;
         }
     } while (option != 9);
 
     delete container;
+    ValidateUserInput::getInstance()->deleteInstance();
 
     return 0;
 }

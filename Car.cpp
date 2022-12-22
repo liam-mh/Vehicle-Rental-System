@@ -47,3 +47,8 @@ ofstream& operator<<(ofstream& of, const Car* v)
     return of;
 }
 
+string Car::getVehicleType() {
+    return "Car";
+}
+
+

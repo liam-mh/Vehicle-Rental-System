@@ -24,8 +24,3 @@ const void Vehicle::displayVehicle()
     cout << left << setw(20) << "Make and Model: " << make << " " << model << endl;
     cout << left << setw(20) << "Age: " << age << endl;
 }
-
-bool Vehicle::operator<(const Vehicle* rhs)
-{
-    return registration < rhs->getVehicleReg();
-}

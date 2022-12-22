@@ -6,16 +6,30 @@ class Rent
 {
 private:
 
+    //class Customer
+    //{
+    //private:
+    //    string name;
+    //    string address;
+    //    string number;
+
+    //public:
+    //    /*string name;
+    //    string address;
+    //    string number;*/
+    //    Customer();
+    //    Customer(string name, string address, string number);
+    //    ~Customer();
+
+    //    void displayCustomer();
+    //};
+
     class Customer
     {
-        //friend class Rent;
-    //private:
-
     public:
         string name;
         string address;
         string number;
-
         Customer();
         Customer(string name, string address, string number);
         ~Customer();
