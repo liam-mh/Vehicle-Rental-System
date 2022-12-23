@@ -24,8 +24,8 @@ double Car::costPerDay() const
 
     // ----------------------------------
     time_t t = time(0);
-    tm* tP = localtime(&t);
-    int currentYear = (tP->tm_year)+1900;
+    tm* now = localtime(&t);
+    int currentYear = (now->tm_year)+1900;
     // ----------------------------------
     int age = currentYear - getVehicleAge();
     double calc = 2500.00-(age*150)-(doors*200);
@@ -47,7 +47,8 @@ ofstream& operator<<(ofstream& of, const Car* v)
     return of;
 }
 
-string Car::getVehicleType() {
+string Car::getVehicleType() 
+{
     return "Car";
 }
 

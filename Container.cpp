@@ -1,23 +1,22 @@
+#pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #define SPACE cout << "\n";
 #define CLEAR_SCREEN system("cls");
 #define VUI ValidateUserInput::getInstance()->validateUserInput
 #define IN_1_OR_2 VUI(option, 2, 9);
 
-
-#include "Container.h"
 #include "Bike.h"
 #include "Car.h"
-#include "Disk.h"
 #include "RentalHistory.h"
 #include "ValidateUserInput.h"
+#include "Disk.h"
 
 #include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <string>
 #include <windows.h> 
-using namespace std;
+#include "container.h"
 
 Container::Container()
 {}
@@ -48,14 +47,24 @@ void Container::operator+(Vehicle* newEntry)
 }
 
 // Display vector content
-void Container::displayMainData(bool sortReg, bool sortCost)
+void Container::sortByReg() {
+    sort(vehicles.begin(), vehicles.end(), [](Vehicle* lhs, Vehicle* rhs)
+        {return lhs->getVehicleReg() < rhs->getVehicleReg();});
+    displayFilter = "\nFiltered by registration, in alphabetical order\n\n";
+}
+void Container::sortByCost() {
+    sort(vehicles.begin(), vehicles.end(), [](Vehicle* lhs, Vehicle* rhs)
+        {return lhs->costPerDay() < rhs->costPerDay();});
+    displayFilter = "\nFiltered by cost per day, in ascending order\n\n";
+}
+
+void Container::displayMainData()
 {
-    Car* checkIfCar = nullptr;
-    string type;
     vector<Vehicle*>::iterator it;
     int i = 0;
 
     // Printing data
+    cout << displayFilter;
     cout << left << setw(24) << "Registration Number" << left << setw(17) << "Cost Per Day" << left << setw(17) << "Vehicle Type" << endl;
     cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
     for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
@@ -65,15 +74,6 @@ void Container::displayMainData(bool sortReg, bool sortCost)
         cout << left << setw(17) << vehicles[i]->getVehicleType() << endl;
     }
     cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
-}
-
-void Container::sortByReg(){
-    sort(vehicles.begin(), vehicles.end(), [](Vehicle* lhs, Vehicle* rhs)
-        {return lhs->getVehicleReg() < rhs->getVehicleReg(); });
-}
-void Container::sortByCost() {
-    sort(vehicles.begin(), vehicles.end(), [](Vehicle* lhs, Vehicle* rhs)
-        {return lhs->costPerDay() < rhs->costPerDay(); });
 }
 
 void Container::displayFilteredData(string type, int &filter, int filterValue)
@@ -98,18 +98,10 @@ void Container::displayFilteredData(string type, int &filter, int filterValue)
     *   the reference parameter 'int &filter' will be set to the int value of total filtered vehicles.
     */
 
-    string registration;
-    if (type != "Car" && type != "Bike")
-    {
-        registration = type;
-        type = filterValue == 1 ? "Car" : "Bike";
-    }
-
     vector<int> indexVector;
     vector<Vehicle*>::iterator it;
     int i = 0;
     int filterCount = 0;
-
     auto printAndPush = [&]()
     {
         filterCount++;
@@ -118,9 +110,17 @@ void Container::displayFilteredData(string type, int &filter, int filterValue)
         indexVector.push_back(i);
     };
 
+    // Check if searching by registration
+    string registration;
+    if (type != "Car" && type != "Bike")
+    {
+        registration = type;
+        type = filterValue == 1 ? "Car" : "Bike";
+    }
+
+    // Display data
     cout << left << setw(28) << "Registration Number" << left << setw(17) << "Cost Per Day" << left << setw(17) << "Make" << left << setw(17) << "Model" << endl;
     cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
-
     for (it = vehicles.begin(); it != vehicles.end(); it++, i++)
     {
         if (type == "Car"  && typeid(*vehicles[i]) != typeid(Car)) continue;
@@ -208,7 +208,7 @@ void Container::removeItemPage()
         if (option == 2)
             break;
         SPACE
-        registration = userEnterReg(false);
+        registration = userEnterReg(false, false);
 
         vector<Vehicle*>::iterator it;
         int index = 0;
@@ -254,7 +254,6 @@ void Container::removeItemPage()
             removeItem(index);
             cout << "Vehicle successfully removed." << endl;
         }
-
         cout << "Returning to the home page..." << endl;
         Sleep(3000);
         break;
@@ -289,7 +288,7 @@ void Container::createVehiclePage(string type)
     CLEAR_SCREEN
     cout << "Please enter the following vehicle details: " << endl;
     SPACE
-    registration = userEnterReg(true);
+    registration = userEnterReg(true, true);
     cout << left << setw(15) << "Make:";  VUI(make);
     cout << left << setw(15) << "Model:"; VUI(model);
     cout << left << setw(15) << "Age:";   VUI(age);
@@ -385,7 +384,7 @@ void Container::searchForVehiclePage(string type)
         {
             cout << "Search by registration number" << endl;
             string registration;
-            registration = userEnterReg(false);
+            registration = userEnterReg(false, true);
             
             CLEAR_SCREEN
             cout << "Vehicles matching registration search:" << endl;
@@ -445,7 +444,7 @@ void Container::selectForRentalHistory(int totalOptions)
     delete rh;
 }
 
-string Container::userEnterReg(bool alreadyExistsError)
+string Container::userEnterReg(bool alreadyExistsError, bool loop)
 {
     /*
     * userEnterReg() loops until user enters correct format registration plate.
@@ -463,7 +462,7 @@ string Container::userEnterReg(bool alreadyExistsError)
     VUI(registration);
     bool alreadyExists = checkRegExists(registration, alreadyExistsError);
 
-    while (alreadyExists == true)
+    while (alreadyExists && loop)
     {
         cout << "Please input a different registration." << endl;
         cout << left << setw(15) << "Registration: ";

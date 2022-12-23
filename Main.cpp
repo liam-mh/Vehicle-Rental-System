@@ -8,21 +8,15 @@
 #include <iostream>
 using namespace std;
 
-#ifdef _DEBUG
-    #include <crtdbg.h>
-#endif
-
 int main() {
 
 #ifdef _DEBUG
-    //_CrtSetBreakAlloc(537);
-    _onexit(_CrtDumpMemoryLeaks);
+    //_CrtSetBreakAlloc();
+    //_onexit(_CrtDumpMemoryLeaks);
 #endif
     
     Container* container = Disk::readVehiclesFromDisk();
-
     int option = 0;
-    bool byReg = false;
 
     do
     {
@@ -32,11 +26,7 @@ int main() {
         cout << "-----------------------------------------------------" << endl;
 
         // Display data
-        if (byReg) 
-            cout << "\nFiltered by registration, in alphabetical order\n" << endl;
-        else
-            cout << "\nFiltered by cost per day, in ascending order\n" << endl;  
-        container->displayMainData(regFilter, costFilter);
+        container->displayMainData();
         SPACE
 
         // User options
@@ -57,8 +47,8 @@ int main() {
             case 2: CLEAR_SCREEN; container->removeItemPage(); break;
             case 3: CLEAR_SCREEN; container->searchForVehiclePage("Car"); break;
             case 4: CLEAR_SCREEN; container->searchForVehiclePage("Bike"); break;
-            case 5: CLEAR_SCREEN; container->sortByReg(); byReg = true; break;
-            case 6: CLEAR_SCREEN; container->sortByCost(); byReg = false; break;
+            case 5: CLEAR_SCREEN; container->sortByReg(); break;
+            case 6: CLEAR_SCREEN; container->sortByCost(); break;
         }
     } while (option != 9);
 

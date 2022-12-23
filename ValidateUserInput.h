@@ -2,9 +2,7 @@
 * ValidateUserInput.h - A template for input validation.
 * 
 * Methods included:
-*   void global(T option)
 *   bool checkOption(T &input, T total)
-*   bool checkOption(T &input, T options[])
 *   bool checkOption(T& input, T total, T single)
 *   void validateUserInput(T &input)
 *   void validateUserInput<string>(string& input)
@@ -75,15 +73,7 @@ public:
             return true;
         return false;
     }
-    template <typename T>
-    bool checkOption(T& input, T options[])
-    {
-        // input is == any item in array
-        for (T i = 0; i < sizeof(options); i++)
-            if (input == options[i])
-                return true;
-        return false;
-    }
+   
     template <typename T>
     bool checkOption(T& input, T total, T single)
     {
@@ -246,41 +236,6 @@ public:
             }
         }
     }
-
-    /*
-    * validateDateInput() Uses regex to check a correct input format is entered.
-    * Inputs:
-    *   Output variable - The input value to be formatted.
-    * Returns Output variable in correct format.
-    */
-    template <typename T>
-    void validateDateInput(T& input)
-    {}
-
-    template <>
-    void validateDateInput<string>(string& input)
-    {
-        /*
-        * Code Snippet - Highlighted below
-        * https://stackoverflow.com/questions/51621150/uk-mobile-phone-and-uk-landline-regex
-        * I have used the regex template from this website to format UK mobile numbers.
-        */
-
-        // ----------------------------------
-        regex r("^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$");
-        // ----------------------------------
-        while (1)
-        {
-            if (getline(cin, input))
-            {
-                if (regex_match(input, r))
-                    return;
-                else
-                    cout << errorFormat << "Date: ";
-            }
-        }
-    }
-
 };
 
 

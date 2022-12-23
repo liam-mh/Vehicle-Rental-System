@@ -23,17 +23,19 @@ public:
     // Display content
     void displayData();
     void viewHistory();
+    const int getTotalRents();
+    const double getTotalIncome();
+    const int getTotalDays();
 
     // User input 
     void rentalPage();
     int createRent();
-
-    const int getTotalRents();
-    const double getTotalIncome();
-    const int getTotalDays();
+    // Help user input
+    tm* getCurrentDate(string& date);
+    void addDays(tm* data, int days, string& date);
+    string convertToDate(int day, int month, int year);
     
-
     void save(int newRents);
-    
 };
 inline const int RentalHistory::getTotalRents() { return totalRents; }
+

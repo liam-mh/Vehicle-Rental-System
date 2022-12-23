@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #define CLEAR_SCREEN system("cls");
 #define SPACE cout << "\n";
 #define VUI ValidateUserInput::getInstance()->validateUserInput
@@ -7,9 +8,10 @@
 #include "Disk.h"
 #include "Rent.h"
 #include "ValidateUserInput.h"
+#include "Vehicle.h"
+
 #include <string>
 #include <iostream>
-#include "Vehicle.h"
 #include <iomanip>
 using namespace std;
 
@@ -33,7 +35,6 @@ void RentalHistory::addRent(Rent* newEntry)
     totalRents++;
     resize();
     int index = getTotalRents()-1;
-    
     if (rents[index] != NULL)
         rents[index] = newEntry;
 }
@@ -95,6 +96,28 @@ void RentalHistory::viewHistory()
     }
 }
 
+const double RentalHistory::getTotalIncome()
+{
+    double total = 0.00;
+    for (int i = 0; i < getTotalRents(); i++)
+    {
+        double current = rents[i]->getPeriodCost();
+        total += current;
+    }
+    return total;
+}
+
+const int RentalHistory::getTotalDays()
+{
+    int total = 0;
+    for (int i = 0; i < getTotalRents(); i++)
+    {
+        int current = rents[i]->getDaysRented();
+        total += current;
+    }
+    return total;
+}
+
 // User input
 void RentalHistory::rentalPage()
 {
@@ -106,9 +129,9 @@ void RentalHistory::rentalPage()
         CLEAR_SCREEN
         cout << "Rental Vehicle: " << vehicle->getVehicleMake() << " " << vehicle->getVehicleModel() << endl;
         cout << "------------------------------" << endl;
-        cout << left << setw(25) << "Cost per day:" << "\x9C" << vehicle->costPerDay() << endl;
+        cout << left << setw(25) << "Cost per day:"        << "\x9C" << vehicle->costPerDay() << endl;
         cout << left << setw(25) << "Total rental income:" << "\x9C" << getTotalIncome() << endl;
-        cout << left << setw(25) << "Total days rented:" << getTotalDays() << endl;
+        cout << left << setw(25) << "Total days rented:"   << getTotalDays() << endl;
         SPACE
         cout << "What do you wish to do?" << endl;
         cout << "1) Rent Vehicle" << endl;
@@ -137,8 +160,8 @@ int RentalHistory::createRent()
     int option = NULL;
     int days = 0;
     double cost = vehicle->costPerDay() * days;
-    string from, too, name, address, number;
-
+    string startDate, endDate, name, address, number;
+    
     while (option != 9)
     {
         cout << "Rent Vehicle: " << vehicle->getVehicleReg() << " : " << vehicle->getVehicleMake() << " " << vehicle->getVehicleModel() << endl;
@@ -152,13 +175,15 @@ int RentalHistory::createRent()
         SPACE
 
         option = NULL;
-        cout << "Please enter the following details:" << endl;
-        cout << left << setw(20) << "Starting Date: ";    VUI(from);
-        cout << left << setw(20) << "Finish Date: ";      VUI(too);
+        tm* data = getCurrentDate(startDate);
+        cout << "Please enter the following details:\n";
+        cout << left << setw(20) << "Starting Date: "     << startDate << endl;;
         cout << left << setw(20) << "Number of days: ";   VUI(days);
+        addDays(data, days, endDate);
+        cout << left << setw(20) << "Finish Date: "       << endDate << endl;
         cout << left << setw(20) << "Customer Name: ";    VUI(name);
         cout << left << setw(20) << "Customer Address: "; VUI(address);
-        cout << left << setw(20) << "Customer Number: ";  VUI(number);
+        cout << left << setw(20) << "Customer Number: ";  ValidateUserInput::getInstance()->validateMobileInput(number);
         SPACE
         cout << "Please confirm the details above are correct" << endl;
         cout << "1) Yes" << endl;
@@ -170,9 +195,9 @@ int RentalHistory::createRent()
 
         option = NULL;
         cout << "The breakdown of rental cost:" << endl;
-        cout << "Cost per day: " << "\x9C" << vehicle->costPerDay() << endl;
-        cout << "Days being rented: " << days << endl;
-        cout << "TOTAL COST: " << "\x9C" << cost << endl;
+        cout << left << setw(20) << "Cost per day: "      << "\x9C" << vehicle->costPerDay() << endl;
+        cout << left << setw(20) << "Days being rented: " << days << endl;
+        cout << left << setw(20) << "TOTAL COST: "        << "\x9C" << cost << endl;
         cout << "Do you wish to continue?" << endl;
         cout << "1) Yes" << endl;
         cout << "2) No" << endl;
@@ -182,34 +207,48 @@ int RentalHistory::createRent()
             break;
         SPACE
        
-        Rent* rent = new Rent(vehicle->getVehicleReg(), totalRents+1, days, cost, from, too, name, address, number);;
+        Rent* rent = new Rent(vehicle->getVehicleReg(), totalRents+1, days, cost, startDate, endDate, name, address, number);;
         addRent(rent);
         NewRents++;
     }
     return NewRents;
 }
 
-
-const double RentalHistory::getTotalIncome()
+// Help user input
+tm* RentalHistory::getCurrentDate(string &date)
 {
-    double total = 0.00;
-    for (int i = 0; i < getTotalRents(); i++)
-    {
-        double current = rents[i]->getPeriodCost();
-        total += current;
-    }
-    return total;
+    time_t t = time(0);
+    tm* now = localtime(&t);
+    date = convertToDate((now->tm_mday), (now->tm_mon + 1), (now->tm_year + 1900));
+    return now;
 }
 
-const int RentalHistory::getTotalDays()
+void RentalHistory::addDays(tm* data, int days, string &date)
 {
-    int total = 0;
-    for (int i = 0; i < getTotalRents(); i++)
-    {
-        int current = rents[i]->getDaysRented();
-        total += current;
-    }
-    return total;
+    /*
+    * Code Snippet - Highlighted below
+    * https://stackoverflow.com/questions/38722589/c-add-or-subtract-values-to-the-date
+    * I took an idea that I was looking into and used this example to implement my own function.
+    * Using tm to add an integer and generate a new date.
+    */
+
+    time_t t = mktime(data);
+    // ------------------------
+    t += (60 * 60 * 24 * days);
+    // ------------------------
+    data = localtime(&t);
+    date = convertToDate((data->tm_mday), (data->tm_mon + 1), (data->tm_year + 1900));
+}
+
+string RentalHistory::convertToDate(int day, int month, int year)
+{
+    string date;
+    date += to_string(day);
+    date += "/";
+    date += to_string(month);
+    date += "/";
+    date += to_string(year);
+    return date;
 }
 
 void RentalHistory::save(int newRents)
