@@ -3,13 +3,10 @@
 
 #include "Container.h"
 #include "Disk.h"
+#include "ValidateUserInput.h"
 
 #include <iostream>
 using namespace std;
-
-#ifdef _DEBUG
-    //#include <crtdbg.h>
-#endif
 
 int main() {
 
@@ -17,12 +14,9 @@ int main() {
     //_CrtSetBreakAlloc();
     //_onexit(_CrtDumpMemoryLeaks);
 #endif
-
+    
     Container* container = Disk::readVehiclesFromDisk();
-
-    int option;
-    bool regFilter = false,
-        costFilter = false;
+    int option = 0;
 
     do
     {
@@ -31,12 +25,8 @@ int main() {
         cout << "Vehicle Rental System - Liam Hammond" << endl;
         cout << "-----------------------------------------------------" << endl;
 
-        // Sorting display by filter
-        if (regFilter) 
-            cout << "\nFiltered by registration, in ascending order\n" << endl;
-        if (costFilter)
-            cout << "\nFiltered by cost per day, in ascending order\n" << endl;   
-        container->displayMainData(regFilter, costFilter);
+        // Display data
+        container->displayMainData();
         SPACE
 
         // User options
@@ -49,7 +39,7 @@ int main() {
         cout << "9) Exit" << endl;
         SPACE
         cout << "Please enter option :" << endl;
-        cin >> option;
+        ValidateUserInput::getInstance()->validateUserInput(option, 6, 9);
         SPACE
         switch (option)
         {
@@ -57,12 +47,13 @@ int main() {
             case 2: CLEAR_SCREEN; container->removeItemPage(); break;
             case 3: CLEAR_SCREEN; container->searchForVehiclePage("Car"); break;
             case 4: CLEAR_SCREEN; container->searchForVehiclePage("Bike"); break;
-            case 5: CLEAR_SCREEN; regFilter = true, costFilter = false; break;
-            case 6: CLEAR_SCREEN; regFilter = false, costFilter = true; break;
+            case 5: CLEAR_SCREEN; container->sortByReg(); break;
+            case 6: CLEAR_SCREEN; container->sortByCost(); break
         }
     } while (option != 9);
 
     delete container;
+    ValidateUserInput::getInstance()->deleteInstance();
 
     return 0;
 }

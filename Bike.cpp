@@ -27,3 +27,7 @@ ofstream& operator<<(ofstream& of, const Bike* v)
         << v->getVehicleAge() << "\n";
     return of;
 }
+
+string Bike::getVehicleType(){
+    return "Bike";
+}

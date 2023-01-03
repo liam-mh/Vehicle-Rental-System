@@ -1,12 +1,14 @@
 #pragma once
-#include "Vehicle.h"
-
 #include <vector>
+#include "Vehicle.h"
+#include <iostream>
+using namespace std;
 
 class Container
 {
 private:
     vector<Vehicle*> vehicles;
+    string displayFilter;
 
 public:
     Container();
@@ -15,11 +17,13 @@ public:
     // Vector manipulators 
     void addItem(Vehicle* vehicle);
     void removeItem(int index);
+    void operator+(Vehicle* newEntry);
 
     // Display vector content
-    void displayMainData(bool sortReg, bool sortCost);
-    void displayFilteredData(string type, int filters, int filterValue);
-    int selectFilteredVehicle();
+    void sortByReg();
+    void sortByCost();
+    void displayMainData();
+    void displayFilteredData(string type, int &filter, int filterValue);
     void printFilteredVehicleData(string type, int i);
 
     // User input 
@@ -27,6 +31,10 @@ public:
     void removeItemPage();
     void createVehiclePage(string type);
     void searchForVehiclePage(string type);
-    string userEnterReg(bool checkExists, bool alreadyExistsErrorMessage);
+    // Helping user input
+    void selectForRentalHistory(int totalOptions);
+    string userEnterReg(bool alreadyExistsErrorMessage, bool loop);
     bool checkRegExists(string reg, bool alreadyExistsErrorMessage);
 };
+
+

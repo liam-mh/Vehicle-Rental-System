@@ -15,7 +15,6 @@ private:
         string name;
         string address;
         string number;
-
         Customer();
         Customer(string name, string address, string number);
         ~Customer();

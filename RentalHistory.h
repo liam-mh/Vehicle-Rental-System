@@ -18,20 +18,24 @@ public:
     // Array manipulators
     void addRent(Rent* newEntry);
     void resize();
+    void operator+(Rent* newEntry);
 
     // Display content
     void displayData();
     void viewHistory();
-
-    // User input 
-    void rentalPage();
-    int createRent();
-
     const int getTotalRents();
     const double getTotalIncome();
     const int getTotalDays();
 
+    // User input 
+    void rentalPage();
+    int createRent();
+    // Help user input
+    tm* getCurrentDate(string& date);
+    void addDays(tm* data, int days, string& date);
+    string convertToDate(int day, int month, int year);
+    
     void save(int newRents);
 };
-
 inline const int RentalHistory::getTotalRents() { return totalRents; }
+

@@ -13,9 +13,7 @@ private:
 public:
     Vehicle(string registration, string type, string make, string model, int age);
     virtual ~Vehicle();
-
-    static bool checkRegFormat(string reg);
-
+    
     const string getVehicleReg() const;
     const string getVehicleMake() const;
     const string getVehicleModel() const;
@@ -25,6 +23,7 @@ public:
     virtual const int getVal2() = 0;
     virtual double costPerDay() const = 0;
     virtual const void displayVehicle();
+    virtual string getVehicleType() = 0;
 };
 inline const string Vehicle::getVehicleReg() const { return registration; }
 inline const string Vehicle::getVehicleMake() const 

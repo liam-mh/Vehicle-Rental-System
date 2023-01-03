@@ -8,7 +8,6 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-//#include <string>
 using namespace std;
 
 Disk::Disk() {}
@@ -41,16 +40,10 @@ Container* Disk::readVehiclesFromDisk()
             getline(ss, model, ',');
             getline(ss, temp, ','); age = stoi(temp);
 
-            if (type == "Car")
-            {
-                Vehicle* v = new Car(var1, var2, registration, make, model, age);
-                container->addItem(v);
-            }
-            if (type == "Bike")
-            {
-                Vehicle* v = new Bike(var1, var2, registration, make, model, age);
-                container->addItem(v);
-            }
+            Vehicle* v = nullptr;
+            if (type == "Car") { v = new Car(var1, var2, registration, make, model, age); }
+            if (type == "Bike") { v = new Bike(var1, var2, registration, make, model, age); }
+            *container + v;
         }
         input.close();
     }
@@ -123,7 +116,7 @@ RentalHistory* Disk::readRentalHistoryFromDisk(Vehicle* vehicle)
                 getline(ss, number, ',');
 
                 Rent* r = new Rent(registration, rentNum, daysRented, periodCost, startDate, endDate, name, address, number);
-                rh->addRent(r);
+                *rh + r;
             }
         }
         input.close();

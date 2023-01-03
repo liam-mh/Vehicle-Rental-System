@@ -14,6 +14,7 @@ public:
     virtual const int getVal1() override;
     virtual const int getVal2() override;
     virtual double costPerDay() const override;
+    virtual string getVehicleType() override;
 
     friend ofstream& operator<<(ofstream& of, const Bike* v);
 };
