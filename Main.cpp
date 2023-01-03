@@ -48,7 +48,7 @@ int main() {
             case 3: CLEAR_SCREEN; container->searchForVehiclePage("Car"); break;
             case 4: CLEAR_SCREEN; container->searchForVehiclePage("Bike"); break;
             case 5: CLEAR_SCREEN; container->sortByReg(); break;
-            case 6: CLEAR_SCREEN; container->sortByCost(); break;
+            case 6: CLEAR_SCREEN; container->sortByCost(); break
         }
     } while (option != 9);
 

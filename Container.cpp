@@ -141,6 +141,7 @@ void Container::displayFilteredData(string type, int &filter, int filterValue)
                 break;
         }
     }
+
     if (filterCount == 0)
         cout << "NO RECORDS FOUND" << endl;
     cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
@@ -379,7 +380,6 @@ void Container::searchForVehiclePage(string type)
         cout << "9) Return to main menu" << endl;
         VUI(option, 3, 9);
         SPACE
-       
         if (option == 1) 
         {
             cout << "Search by registration number" << endl;
@@ -454,7 +454,6 @@ string Container::userEnterReg(bool alreadyExistsError, bool loop)
     */
 
     string registration;
-
     cout << "Please enter the registration plate." << endl;
     cout << "Must be in the following format where A = a letter, and 1 = a number:" << endl;
     cout << "AA11 AAA   example: DY62 HYT" << endl;

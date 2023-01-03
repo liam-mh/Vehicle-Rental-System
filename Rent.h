@@ -8,6 +8,9 @@ private:
 
     class Customer
     {
+        //friend class Rent;
+    //private:
+
     public:
         string name;
         string address;
