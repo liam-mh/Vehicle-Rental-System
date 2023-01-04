@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <stdio.h>
 using namespace std;
 
 Disk::Disk() {}
@@ -147,27 +148,28 @@ void Disk::writeRentalHistoryToDisk(Rent** data, int totalRents, int newRents)
     output.close();
 }
 
-void Disk::removeRentalHistory(Vehicle* vehicle)
+void Disk::removeRentalHistory(string RemoveRegistration)
 {
     ifstream input;
     input.open("RentalHistory.csv");
-    ofstream output;
 
     if (input.is_open())
     {
+        ofstream output;
+        output.open("temp.csv");
+        string line, singleValue, temp;
+
         string registration, startDate, endDate, name, address, number;
         int rentNum = 0,
             daysRented = 0;
         double periodCost = 0.00;
-
-        string line, singleValue, temp;
 
         while (getline(input, line))
         {
             stringstream ss(line);
             getline(ss, registration, ',');
 
-            if (registration != vehicle->getVehicleReg())
+            if (registration != RemoveRegistration)
             {
                 getline(ss, temp, ','); rentNum = stoi(temp);
                 getline(ss, temp, ','); daysRented = stoi(temp);
@@ -179,7 +181,6 @@ void Disk::removeRentalHistory(Vehicle* vehicle)
                 getline(ss, number, ',');
 
                 Rent* r = new Rent(registration, rentNum, daysRented, periodCost, startDate, endDate, name, address, number);
-                output.open("RentalHistory.csv", fstream::app);
                 if (output.is_open())
                     output << r;
                 else
@@ -188,9 +189,11 @@ void Disk::removeRentalHistory(Vehicle* vehicle)
         }
         input.close();
         output.close();
+        if (remove("RentalHistory.csv") != 0)
+            cout << "Error: Cannot remove file" << endl;
+        if (rename("temp.csv", "RentalHistory.csv") != 0)
+            cout << "Error: Cannot rename file" << endl;
     }
     else
-    {
         cout << "Error: Cannot read from rental history directory." << endl;
-    }
 }

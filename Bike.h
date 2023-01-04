@@ -8,7 +8,7 @@ private:
         engine = 0;
     
 public:
-    Bike(int engine, int wheels, string registration, string make, string model, int age);
+    Bike(int wheels, int engine, string registration, string make, string model, int age);
     ~Bike();
 
     virtual const int getVal1() override;

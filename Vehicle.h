@@ -13,7 +13,7 @@ private:
 public:
     Vehicle(string registration, string type, string make, string model, int age);
     virtual ~Vehicle();
-    
+
     const string getVehicleReg() const;
     const string getVehicleMake() const;
     const string getVehicleModel() const;

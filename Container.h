@@ -1,8 +1,6 @@
 #pragma once
-#include <vector>
 #include "Vehicle.h"
-#include <iostream>
-using namespace std;
+#include <vector>
 
 class Container
 {
@@ -23,7 +21,7 @@ public:
     void sortByReg();
     void sortByCost();
     void displayMainData();
-    void displayFilteredData(string type, int &filter, int filterValue);
+    vector<int> displayFilteredData(string type, int filter, int filterValue);
     void printFilteredVehicleData(string type, int i);
 
     // User input 
@@ -32,7 +30,7 @@ public:
     void createVehiclePage(string type);
     void searchForVehiclePage(string type);
     // Helping user input
-    void selectForRentalHistory(int totalOptions);
+    void selectForRentalHistory(vector<int> vehicleIndexes);
     string userEnterReg(bool alreadyExistsErrorMessage, bool loop);
     bool checkRegExists(string reg, bool alreadyExistsErrorMessage);
 };

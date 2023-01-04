@@ -2,8 +2,8 @@
 
 #include <fstream>
 
-Bike::Bike(int engine, int wheels, string registration, string make, string model, int age)
-    : engine(engine), wheels(wheels), Vehicle(registration, "Bike", make, model, age)
+Bike::Bike(int wheels, int engine, string registration, string make, string model, int age)
+    : wheels(wheels), engine(engine), Vehicle(registration, "Bike", make, model, age)
 {}
 
 Bike::~Bike()
@@ -18,8 +18,8 @@ double Bike::costPerDay() const
 ofstream& operator<<(ofstream& of, const Bike* v)
 {
     of
-        << v->engine << ","
         << v->wheels << ","
+        << v->engine << ","
         << v->getVehicleReg() << ","
         << "Bike" << ","
         << v->getVehicleMake() << ","

@@ -13,5 +13,5 @@ public:
 
     static RentalHistory* readRentalHistoryFromDisk(Vehicle* vehicle);
     static void writeRentalHistoryToDisk(Rent** data, int totalRents, int newRents);
-    static void removeRentalHistory(Vehicle* vehicle);
+    static void removeRentalHistory(string RemoveRegistration);
 };

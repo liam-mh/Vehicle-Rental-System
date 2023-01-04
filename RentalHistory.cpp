@@ -13,6 +13,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <windows.h> 
 using namespace std;
 
 RentalHistory::RentalHistory(Vehicle* vehicle)
@@ -150,8 +151,14 @@ void RentalHistory::rentalPage()
         if (option == 9)
             break;
     }
-    if (newRents != 0)
+    if (newRents != 0) {
         save(newRents);
+        cout << "Congratulations on renting the " << vehicle->getVehicleMake() << " " << vehicle->getVehicleModel() << endl;
+        cout << "Returning to the home page..." << endl;
+        Sleep(3000);
+        return;
+    }
+        
 }
 
 int RentalHistory::createRent()
@@ -159,7 +166,7 @@ int RentalHistory::createRent()
     int NewRents = 0;
     int option = NULL;
     int days = 0;
-    double cost = vehicle->costPerDay() * days;
+    double cost = 0.00;
     string startDate, endDate, name, address, number;
     
     while (option != 9)
@@ -197,12 +204,12 @@ int RentalHistory::createRent()
         cout << "The breakdown of rental cost:" << endl;
         cout << left << setw(20) << "Cost per day: "      << "\x9C" << vehicle->costPerDay() << endl;
         cout << left << setw(20) << "Days being rented: " << days << endl;
+        cost = vehicle->costPerDay() * days;
         cout << left << setw(20) << "TOTAL COST: "        << "\x9C" << cost << endl;
         cout << "Do you wish to continue?" << endl;
         cout << "1) Yes" << endl;
         cout << "2) No" << endl;
         IN_1_OR_2
-        cin >> option;
         if (option == 2)
             break;
         SPACE
@@ -210,6 +217,7 @@ int RentalHistory::createRent()
         Rent* rent = new Rent(vehicle->getVehicleReg(), totalRents+1, days, cost, startDate, endDate, name, address, number);;
         addRent(rent);
         NewRents++;
+        break;
     }
     return NewRents;
 }

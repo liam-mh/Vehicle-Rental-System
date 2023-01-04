@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+
 #include "Vehicle.h"
 
 #include <iomanip>

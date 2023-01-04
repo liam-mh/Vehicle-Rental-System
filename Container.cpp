@@ -1,13 +1,12 @@
-#pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #define SPACE cout << "\n";
 #define CLEAR_SCREEN system("cls");
 #define VUI ValidateUserInput::getInstance()->validateUserInput
 #define IN_1_OR_2 VUI(option, 2, 9);
 
+#include "Container.h"
 #include "Bike.h"
 #include "Car.h"
-#include "Container.h"
 #include "RentalHistory.h"
 #include "ValidateUserInput.h"
 #include "Disk.h"
@@ -36,8 +35,8 @@ void Container::addItem(Vehicle* vehicle)
 
 void Container::removeItem(int index)
 {
-    Vehicle* vehicle = vehicles.at(index);
-    Disk::removeRentalHistory(vehicle);
+    string reg = vehicles.at(index)->getVehicleReg();
+    Disk::removeRentalHistory(reg);
     vehicles.erase(vehicles.begin() + index);
 }
 
@@ -76,10 +75,13 @@ void Container::displayMainData()
     cout << left << setw(24) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
 }
 
-void Container::displayFilteredData(string type, int &filter, int filterValue)
+vector<int> Container::displayFilteredData(string type, int filter, int filterValue)
 {
     /*
     * displayFilteredData() iterates thorugh the 'vehicles' vector and displays data under filters.
+    * Returns:
+    *   vector<int> containing the index of the filtered vehicles in the 'vector<Vehicle*> vehicles'
+    * 
     * Filters:
     *   type - Passes derived class of Vehicle.
     *   filter - Controls the switch statement for what to search by:
@@ -92,22 +94,16 @@ void Container::displayFilteredData(string type, int &filter, int filterValue)
     *   If searching by registration, that value is passed as parameter 'string type'.
     *   The type is then taken and converted under the parameter 'int filterValue',
     *   as this parameter has no use with the single filter of registration.
-    * 
-    * Function manipulation - Instead of return type int
-    *   If there are vehicles matching the search criteria,
-    *   the reference parameter 'int &filter' will be set to the int value of total filtered vehicles.
     */
 
     vector<int> indexVector;
     vector<Vehicle*>::iterator it;
     int i = 0;
-    int filterCount = 0;
     auto printAndPush = [&]()
     {
-        filterCount++;
-        cout << left << setw(4) << filterCount;
-        printFilteredVehicleData(type, i);
         indexVector.push_back(i);
+        cout << left << setw(4) << indexVector.size();
+        printFilteredVehicleData(type, i);
     };
 
     // Check if searching by registration
@@ -141,11 +137,10 @@ void Container::displayFilteredData(string type, int &filter, int filterValue)
                 break;
         }
     }
-
-    if (filterCount == 0)
+    if (indexVector.empty())
         cout << "NO RECORDS FOUND" << endl;
     cout << left << setw(28) << "-------------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << left << setw(17) << "------------" << endl;
-    filter = filterCount;
+    return indexVector;
 }
 
 void Container::printFilteredVehicleData(string type, int i)
@@ -325,6 +320,7 @@ void Container::createVehiclePage(string type)
 
 void Container::searchForVehiclePage(string type)
 {
+    vector<int> indexOfMatchingVehicles;
     int option = NULL;
     int filterNum = 0;
     auto searchFilter = [&](string filter)
@@ -338,15 +334,15 @@ void Container::searchForVehiclePage(string type)
             cout << "Please enter amount of " << filter << ": ";
         VUI(input);
 
-        if (filter == "seats" || filter == "wheels")
+        if (filter == "doors" || filter == "wheels")
             filterNum = 1;
-        if (filter == "doors" || filter == "engine")
+        if (filter == "seats" || filter == "engine")
             filterNum = 2;
 
         CLEAR_SCREEN
         cout << "List of " << type << "s matching search filter: " << input << ", " << filter << endl;
         SPACE
-        displayFilteredData(type, filterNum, input);
+        indexOfMatchingVehicles = displayFilteredData(type, filterNum, input);
     };
 
     // User input 
@@ -369,8 +365,8 @@ void Container::searchForVehiclePage(string type)
         cout << "1) Registration number" << endl;
         if (type == "Car")
         {
-            cout << "2) Number of seats" << endl;
-            cout << "3) Number of doors" << endl;
+            cout << "2) Number of doors" << endl;
+            cout << "3) Number of seats" << endl;
         }
         if (type == "Bike")
         {
@@ -380,6 +376,7 @@ void Container::searchForVehiclePage(string type)
         cout << "9) Return to main menu" << endl;
         VUI(option, 3, 9);
         SPACE
+       
         if (option == 1) 
         {
             cout << "Search by registration number" << endl;
@@ -389,16 +386,16 @@ void Container::searchForVehiclePage(string type)
             CLEAR_SCREEN
             cout << "Vehicles matching registration search:" << endl;
             SPACE
-            displayFilteredData(registration, filterNum, type == "Car" ? 1 : 2);
+            indexOfMatchingVehicles = displayFilteredData(registration, filterNum, type == "Car" ? 1 : 2);
         }
-        if (type == "Car")
+        else if (type == "Car")
         {
             if (option == 2)
-                searchFilter("seats");
-            if (option == 3)
                 searchFilter("doors");
+            if (option == 3)
+                searchFilter("seats");
         }
-        if (type == "Bike")
+        else if (type == "Bike")
         {
             if (option == 2)
                 searchFilter("wheels");
@@ -409,19 +406,18 @@ void Container::searchForVehiclePage(string type)
     }
 
     // Rental History if selection
-    int index = filterNum;
-    if (index - 1 < 0)
+    if (indexOfMatchingVehicles.empty())
     {
         cout << "Returning to the home page..." << endl;
         Sleep(3000);
         return;
     }
     SPACE
-    selectForRentalHistory(index);
+    selectForRentalHistory(indexOfMatchingVehicles);
 }
 
 // Helping user input
-void Container::selectForRentalHistory(int totalOptions)
+void Container::selectForRentalHistory(vector<int> vehicleIndexes)
 {
     int option = 0;
     cout << "Would you like to select a vehicle or return to the menu?" << endl;
@@ -434,11 +430,10 @@ void Container::selectForRentalHistory(int totalOptions)
 
     option = NULL;
     cout << "Please enter the index of a vehicle: ";
-    VUI(option, totalOptions);
-    option--;
+    VUI(option, (int)vehicleIndexes.size());
 
     // Accessing rental history
-    Vehicle* VehicleSelection = vehicles[option];
+    Vehicle* VehicleSelection = vehicles[vehicleIndexes[option-1]];
     RentalHistory* rh = Disk::readRentalHistoryFromDisk(VehicleSelection);
     rh->rentalPage();
     delete rh;
@@ -454,6 +449,7 @@ string Container::userEnterReg(bool alreadyExistsError, bool loop)
     */
 
     string registration;
+
     cout << "Please enter the registration plate." << endl;
     cout << "Must be in the following format where A = a letter, and 1 = a number:" << endl;
     cout << "AA11 AAA   example: DY62 HYT" << endl;

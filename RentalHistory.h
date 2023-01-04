@@ -2,8 +2,6 @@
 #include "Rent.h"
 #include "Vehicle.h"
 
-using namespace std;
-
 class RentalHistory
 {
 private:
